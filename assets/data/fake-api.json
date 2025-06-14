@@ -1,0 +1,98 @@
+{
+  "clientes": [
+    {
+      "id": 1,
+      "nomeCompleto": "Maria Silva",
+      "cpfCnpj": "123.456.789-00",
+      "email": "maria.silva@example.com",
+      "endereco": "Rua das Flores, 123, São Paulo, SP"
+    },
+    {
+      "id": 2,
+      "nomeCompleto": "João Pereira",
+      "cpfCnpj": "98.765.432/0001-55",
+      "email": "joao.pereira@empresa.com",
+      "endereco": "Avenida Paulista, 1000, São Paulo, SP"
+    }
+  ],
+  "centros": [
+    {
+      "id": 1,
+      "nome": "Centro de Distribuição Norte",
+      "endereco": "Rodovia BR-101, Km 50, Recife, PE"
+    },
+    {
+      "id": 2,
+      "nome": "Centro de Distribuição Sul",
+      "endereco": "BR-232, Km 20, Caruaru, PE"
+    }
+  ],
+  "encomendas": [
+    {
+      "id": 101,
+      "pesoKg": 2.5,
+      "tipo": "documento",
+      "descricao": "Contrato assinado",
+      "enderecoEntrega": "Rua Marechal Deodoro, 200, Recife, PE"
+    },
+    {
+      "id": 102,
+      "pesoKg": 15,
+      "tipo": "caixa",
+      "descricao": "Eletrônicos frágeis",
+      "enderecoEntrega": "Rua do Sol, 45, Olinda, PE"
+    }
+  ],
+  "rotas": [
+    {
+      "id": 201,
+      "origem": "Centro de Distribuição Norte",
+      "destino": "Centro de Distribuição Sul",
+      "centrosIntermediarios": [ ],
+      "distanciaKm": 120,
+      "tempoEstimadoH": 2.0
+    },
+    {
+      "id": 202,
+      "origem": "Centro de Distribuição Sul",
+      "destino": "Cliente Final",
+      "centrosIntermediarios": [1],
+      "distanciaKm": 60,
+      "tempoEstimadoH": 1.0
+    }
+  ],
+  "entregas": [
+    {
+      "id": 301,
+      "clienteId": 1,
+      "encomendaId": 101,
+      "rotaId": 201,
+      "dataEstimada": "2025-06-18T14:00:00-03:00",
+      "status": "a_caminho",
+      "historico": [
+        {
+          "dataHora": "2025-06-16T09:00:00-03:00",
+          "status": "em_preparo"
+        },
+        {
+          "dataHora": "2025-06-17T08:30:00-03:00",
+          "status": "a_caminho"
+        }
+      ]
+    },
+    {
+      "id": 302,
+      "clienteId": 2,
+      "encomendaId": 102,
+      "rotaId": 202,
+      "dataEstimada": "2025-06-20T10:30:00-03:00",
+      "status": "em_preparo",
+      "historico": [
+        {
+          "dataHora": "2025-06-17T10:00:00-03:00",
+          "status": "em_preparo"
+        }
+      ]
+    }
+  ]
+}
