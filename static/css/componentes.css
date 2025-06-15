@@ -22,6 +22,11 @@
     color: #333;
 }
 
+.link-home {
+    text-decoration: none;
+    color: var(--preto);
+}
+
 .center {
     justify-content: center;
 }
@@ -86,4 +91,33 @@
 .link:hover {
     color: #004e2c;
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--cinza-neutro);
+    }
+
+    .nav-section {
+        width: 100%;
+        justify-content: center;
+        margin: 0.5rem 0;
+    }
+
+    .logo {
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .center, .right {
+        justify-content: center;
+    }
+
+    .nav-link {
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+    }
 }

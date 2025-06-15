@@ -17,3 +17,9 @@ section {
     width: 100%;
     height: 100%;
 }
+
+@media (max-width: 768px) {
+    main {
+        min-height: calc(100vh - 200px);
+    }
+}
