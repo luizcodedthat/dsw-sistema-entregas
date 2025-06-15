@@ -64,6 +64,12 @@
     width: 100%;
 }
 
+.right .nav-link {
+    padding-right: 0;
+}
+
+/* Botão primário */
+
 .button {
     text-decoration: none;
     border: none;
@@ -83,6 +89,8 @@
     color: var(--branco);
 }
 
+/* Links comuns */
+
 .link {
     text-decoration: none;
     color: var(--verde-escuro);
@@ -91,6 +99,91 @@
 .link:hover {
     color: #004e2c;
     text-decoration: underline;
+}
+
+/* Filtros (select e input) */
+#filtros {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0 auto;
+    justify-content: space-around;
+}
+
+#filtros label {
+    font-weight: bold;
+    margin: auto 0;
+}
+
+#filtros select,
+#filtros input {
+    box-sizing: border-box;
+    width: auto;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    flex: 1;
+}
+
+#filtros select:focus,
+#filtros input:focus {
+    border-color: var(--verde-escuro);
+    outline: none;
+}
+
+#filtros select {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#filtros select option {
+    padding: 0.8rem;
+}
+
+/* Adiciona um estilo de hover no select */
+#filtros select:hover {
+    border-color: var(--verde-escuro);
+}
+
+
+/* Tabela de listagem */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Botão de remover da listagem */
+
+button.remover-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.remover-btn:hover {
+    background-color: darkred;
 }
 
 @media (max-width: 768px) {

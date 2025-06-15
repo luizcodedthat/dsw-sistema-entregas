@@ -33,10 +33,189 @@
 
     <main>
 
-        <section></section>
+        <nav class="topbar">
+            <ul>
+                <li><button class="botao-secao" id="botao-clientes">Clientes</button></li>
+                <li><button class="botao-secao" id="botao-encomendas">Encomendas</button></li>
+                <li><button class="botao-secao" id="botao-rotas">Rotas</button></li>
+                <li><button class="botao-secao" id="botao-entregas">Entregas</button></li>
+                <li><button class="botao-secao" id="botao-centros">Centros</button></li>
+            </ul>
+        </nav>
+
+        <section id="secao-clientes" class="secao secao-ativa">
+
+            <h1>Consulte os clientes cadastrados</h1>
+            <div id="filtros">
+                <label for="filtro-nome">Filtrar por Nome:</label>
+                <input type="text" id="filtro-nome" placeholder="Filtrar pelo nome...">
+
+                <label for="filtro-cpfcnpj">Filtrar por CPF/CNPJ:</label>
+                <input type="text" id="filtro-cpfcnpj" placeholder="Filtrar pelo CPF/CNPJ...">
+
+                <button class="novo-cadastro">+ Novo cliente</button>
+            </div>
+
+            <table id="tabela-clientes" class="tabela-listagem">
+                <thead>
+                    <tr>
+                        <th>Nome Completo</th>
+                        <th>CPF/CNPJ</th>
+                        <th>E-mail</th>
+                        <th>Endereço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas da tabela serão inseridas aqui -->
+                </tbody>
+            </table>
+
+        </section>
+
+        <section id="secao-encomendas" class="secao">
+
+            <h1>Consulte as encomendas cadastradas</h1>
+            <div id="filtros">
+                <label for="filtro-tipo">Filtrar por Tipo:</label>
+                <select name="filtro-tipo" id="filtro-tipo">
+                    <option value="nenhum">Selecione o tipo...</option>
+                    <option value="caixa">Caixa</option>
+                    <option value="documento">Documento</option>
+                    <option value="palete">Palete</option>
+                </select>
+
+                <label for="filtro-peso">Filtrar pelo peso (kg):</label>
+                <input type="text" id="filtro-peso" placeholder="Filtrar pelo Peso (kg)...">
+
+                <button class="novo-cadastro">+ Nova encomenda</button>
+
+            </div>
+
+            <table id="tabela-encomendas" class="tabela-listagem">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Endereço</th>
+                        <th>Peso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas da tabela serão inseridas aqui -->
+                </tbody>
+            </table>
+
+        </section>
+
+        <section id="secao-rotas" class="secao">
+
+            <h1>Consulte as rotas de entrega cadastradas</h1>
+            <div id="filtros">
+                <label for="filtro-origem">Filtrar por Origem:</label>
+                <select name="filtro-origem" id="filtro-origem">
+                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <option value="centro">Centro de Distribuição</option>
+                </select>
+
+                <label for="filtro-destino">Filtrar por Destino:</label>
+                <select name="filtro-destino" id="filtro-destino">
+                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <option value="centro">Centro de Distribuição</option>
+                </select>
+
+                <button class="novo-cadastro">+ Nova rota</button>
+
+            </div>
+
+            <table id="tabela-rotas" class="tabela-listagem">
+                <thead>
+                    <tr>
+                        <th>Ponto de Origem</th>
+                        <th>Pontos Intermediários</th>
+                        <th>Ponto de Destino</th>
+                        <th>Distância (km)</th>
+                        <th>Tempo estimado (h)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas da tabela serão inseridas aqui -->
+                </tbody>
+            </table>
+
+        </section>
+
+        <section id="secao-entregas" class="secao">
+
+            <h1>Consulte as entregas cadastradas</h1>
+            <div id="filtros">
+                <label for="filtro-cliente">Filtrar por Cliente:</label>
+                <select name="filtro-cliente" id="filtro-cliente">
+                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <option value="centro">Cliente</option>
+                </select>
+
+                <label for="filtro-rota">Filtrar por Rota:</label>
+                <select name="filtro-rota" id="filtro-rota">
+                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <option value="rota">Rota</option>
+                </select>
+
+                <label for="filtro-status">Filtrar por Status:</label>
+                <select name="filtro-status" id="filtro-status">
+                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <option value="nenhum">Selecione...</option>
+                    <option value="em_preparo">Em preparo</option>
+                    <option value="a_caminho">À caminho</option>
+                    <option value="entregue">Entregue</option>
+                </select>
+
+                <label for="filtro-data">Filtrar por Data:</label>
+                <input type="date" id="filtro-data" name="filtro-data">
+
+                <button class="novo-cadastro">+ Nova entrega</button>
+
+            </div>
+
+            <table id="tabela-rotas" class="tabela-listagem">
+                <thead>
+                    <tr>
+                        <th>Ponto de Origem</th>
+                        <th>Pontos Intermediários</th>
+                        <th>Ponto de Destino</th>
+                        <th>Distância (km)</th>
+                        <th>Tempo estimado (h)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas da tabela serão inseridas aqui -->
+                </tbody>
+            </table>
+
+        </section>
+
+        <section id="secao-centros" class="secao">
+
+            <h1>Consulte os centros de distribuição</h1>
+
+            <table id="tabela-encomendas" class="tabela-listagem">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Cidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas da tabela serão inseridas aqui -->
+                </tbody>
+            </table>
+
+        </section>
 
     </main>
 
+
+    <script src="static/js/pages/admin.js"></script>
 </body>
 
 </html>
