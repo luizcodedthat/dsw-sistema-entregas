@@ -6,6 +6,20 @@
     <title>Rastreamente de entrega</title>
 </head>
 <body>
-    
+<h1>Rastreamento de Entregas</h1>
+
+  <label for="tipoBusca">Buscar por:</label>
+  <select id="tipoBusca">
+    <option value="codigo">Código</option>
+    <option value="clienteId">Cliente</option>
+    <option value="status">Status</option>
+  </select>
+
+  <input type="text" id="termoBusca" placeholder="Digite o termo da busca">
+  <button>Buscar</button>
+
+  <div id="resultado"></div>
+
+  <script type="module" src="/static/js/pages/rastreamento.js"></script>
 </body>
 </html>
