@@ -1,1 +1,1 @@
-const API_BASE_URL  = "http://"
+import { API_BASE_URL } from "./config";

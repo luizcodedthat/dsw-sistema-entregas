@@ -1,2 +1,1 @@
-const { API_BASE_URL } = require("./config");
-
+import { API_BASE_URL } from "./config";

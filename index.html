@@ -1,11 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="static/css/base.css" />
+    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/componentes.css" />
+    <link rel="stylesheet" href="static/css/home.css" />
     <title>Sistema de Entregas</title>
 </head>
+
 <body>
-    
+    <nav class="navbar">
+        <div class="nav-section logo"><a href="/" class="link-home">IFdex</a></div>
+
+        <div class="nav-section center">
+            <a href="rastreamento.html" class="nav-link">Rastreamento</a>
+        </div>
+
+        <div class="nav-section right">
+            <a href="admin.html" class="nav-link">Painel de Administrador</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="rastreamento">
+            <div class="texto-principal">
+                <header>
+                    <h1>Rastreie sua entrega</h1>
+                    <p>Rastreador de entregas da IFdex. Rastreie usando o código da entrega ou seu CPF/CNPJ.</p>
+                </header>
+
+                <form id="form-rastreamento" action="rastreamento.html" method="GET">
+                    <div class="grupo-campo">
+                        <input type="text" id="codigo" name="codigo"
+                            placeholder="Digite seu código ou CPF/CNPJ para rastrear" required />
+                        <button type="submit" class="button">Rastrear</button>
+                    </div>
+                </form>
+                <a href="rastreamento.html" class="link">Ou rastreie por status clicando aqui!</a>
+
+            </div>
+            <div class="imagem-lateral"></div>
+        </section>
+    </main>
 </body>
+
 </html>

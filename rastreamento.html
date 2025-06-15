@@ -1,25 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
     <title>Rastreamente de entrega</title>
+
+    <link rel="stylesheet" href="static/css/base.css" />
+    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/componentes.css" />
+    <link rel="stylesheet" href="static/css/rastreamento.css" />
 </head>
+
 <body>
-<h1>Rastreamento de Entregas</h1>
 
-  <label for="tipoBusca">Buscar por:</label>
-  <select id="tipoBusca">
-    <option value="codigo">Código</option>
-    <option value="clienteId">Cliente</option>
-    <option value="status">Status</option>
-  </select>
+    <nav class="navbar">
+        <div class="nav-section logo"><a href="/" class="link-home">IFdex</a></div>
 
-  <input type="text" id="termoBusca" placeholder="Digite o termo da busca">
-  <button>Buscar</button>
+        <div class="nav-section center">
+            <a href="rastreamento.html" class="nav-link">Rastreamento</a>
+        </div>
 
-  <div id="resultado"></div>
+        <div class="nav-section right">
+            <a href="admin.html" class="nav-link">Painel de Administrador</a>
+        </div>
+    </nav>
 
-  <script type="module" src="/static/js/pages/rastreamento.js"></script>
+    <main>
+
+        <section>
+          <h1>Rastreamento de Entregas</h1>
+
+          <label for="tipoBusca">Buscar por:</label>
+          <select id="tipoBusca">
+            <option value="codigo">Código</option>
+            <option value="clienteId">Cliente</option>
+            <option value="status">Status</option>
+          </select>
+
+          <input type="text" id="termoBusca" placeholder="Digite o termo da busca">
+          <button>Buscar</button>
+
+          <div id="resultado"></div>
+
+      </section>
+
+    </main>
+        <script type="module" src="/static/js/pages/rastreamento.js"></script>
 </body>
+
 </html>
