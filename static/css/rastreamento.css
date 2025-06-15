@@ -1,0 +1,40 @@
+/* estilos.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+form#form-busca {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.tabela-entregas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.tabela-entregas th, .tabela-entregas td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+.tabela-entregas th {
+  background-color: #f2f2f2;
+}
+.btn-detalhar {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.detalhe-entrega p {
+  margin: 4px 0;
+}
+.historico-entrega ul {
+  list-style: none;
+  padding-left: 0;
+}
+.historico-entrega li {
+  margin-bottom: 6px;
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+}

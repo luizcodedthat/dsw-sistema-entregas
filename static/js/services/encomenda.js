@@ -1,2 +1,1 @@
-const { API_BASE_URL } = require("./config");
-
+const API_BASE_URL  = "http://"
