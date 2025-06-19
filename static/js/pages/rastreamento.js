@@ -1,5 +1,27 @@
 // rastreamento.js
 import { getEntregaPorId, getHistoricoEntrega, getTodasEntregas } from '../services/entrega.js';
+import { formatarCPFCNPJ } from '../utils/formatter.js';
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const codigoRastreamentoInformado = urlParams.get('codigo');
+const cpfCNPJInformado = urlParams.get('cpfcnpj');
+
+// Inicialização do Vue JS
+const { createApp } = Vue;
+
+createApp({
+    data() {
+        return {
+          codigoRastreamento: codigoRastreamentoInformado || '',
+          cpfCNPJ: cpfCNPJInformado || '',
+          tipoFiltro: cpfCNPJInformado ? 'cliente' : 'codigo'
+        };
+    },
+    methods: {
+        formatarCPFCNPJ
+    }
+}).mount('#app');
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("button").addEventListener("click", buscarEntrega);
