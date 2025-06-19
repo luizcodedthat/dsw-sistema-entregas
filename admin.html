@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="static/css/layout.css">
     <link rel="stylesheet" href="static/css/componentes.css" />
     <link rel="stylesheet" href="static/css/admin.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
@@ -31,11 +33,11 @@
         </div>
     </nav>
 
-    <main>
+    <main id="app">
 
         <nav class="topbar">
             <ul>
-                <li><button class="botao-secao" id="botao-clientes">Clientes</button></li>
+                <li><button class="botao-secao botao-secao-ativa" id="botao-clientes">Clientes</button></li>
                 <li><button class="botao-secao" id="botao-encomendas">Encomendas</button></li>
                 <li><button class="botao-secao" id="botao-rotas">Rotas</button></li>
                 <li><button class="botao-secao" id="botao-entregas">Entregas</button></li>
@@ -45,13 +47,13 @@
 
         <section id="secao-clientes" class="secao secao-ativa">
 
-            <h1>Consulte os clientes cadastrados</h1>
+            <h1>Gerencie os clientes cadastrados</h1>
             <div id="filtros">
                 <label for="filtro-nome">Filtrar por Nome:</label>
-                <input type="text" id="filtro-nome" placeholder="Filtrar pelo nome...">
+                <input type="text" id="filtro-nome" placeholder="Filtrar pelo nome..." v-model="filtroNome">
 
                 <label for="filtro-cpfcnpj">Filtrar por CPF/CNPJ:</label>
-                <input type="text" id="filtro-cpfcnpj" placeholder="Filtrar pelo CPF/CNPJ...">
+                <input type="text" id="filtro-cpfcnpj" placeholder="Filtrar pelo CPF/CNPJ..." v-model="filtroCPFCNPJ" @input="formatarCPFCNPJ($event, 1)">
 
                 <button class="novo-cadastro">+ Novo cliente</button>
             </div>
@@ -74,7 +76,7 @@
 
         <section id="secao-encomendas" class="secao">
 
-            <h1>Consulte as encomendas cadastradas</h1>
+            <h1>Gerencie as encomendas cadastradas</h1>
             <div id="filtros">
                 <label for="filtro-tipo">Filtrar por Tipo:</label>
                 <select name="filtro-tipo" id="filtro-tipo">
@@ -109,17 +111,17 @@
 
         <section id="secao-rotas" class="secao">
 
-            <h1>Consulte as rotas de entrega cadastradas</h1>
+            <h1>Gerencie as rotas de entrega cadastradas</h1>
             <div id="filtros">
                 <label for="filtro-origem">Filtrar por Origem:</label>
                 <select name="filtro-origem" id="filtro-origem">
-                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <!-- Adicionar os centros existentes com Vue aqui -->
                     <option value="centro">Centro de Distribuição</option>
                 </select>
 
                 <label for="filtro-destino">Filtrar por Destino:</label>
                 <select name="filtro-destino" id="filtro-destino">
-                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <!-- Adicionar os centros existentes com Vue aqui -->
                     <option value="centro">Centro de Distribuição</option>
                 </select>
 
@@ -146,23 +148,23 @@
 
         <section id="secao-entregas" class="secao">
 
-            <h1>Consulte as entregas cadastradas</h1>
+            <h1>Gerencie as entregas cadastradas</h1>
             <div id="filtros">
                 <label for="filtro-cliente">Filtrar por Cliente:</label>
                 <select name="filtro-cliente" id="filtro-cliente">
-                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <!-- Adicionar os centros existentes com Vue aqui -->
                     <option value="centro">Cliente</option>
                 </select>
 
                 <label for="filtro-rota">Filtrar por Rota:</label>
                 <select name="filtro-rota" id="filtro-rota">
-                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <!-- Adicionar os centros existentes com Vue aqui -->
                     <option value="rota">Rota</option>
                 </select>
 
                 <label for="filtro-status">Filtrar por Status:</label>
                 <select name="filtro-status" id="filtro-status">
-                    <!-- Adicionar os centros existentes com Javascript aqui -->
+                    <!-- Adicionar os centros existentes com Vue aqui -->
                     <option value="nenhum">Selecione...</option>
                     <option value="em_preparo">Em preparo</option>
                     <option value="a_caminho">À caminho</option>
@@ -215,7 +217,7 @@
     </main>
 
 
-    <script src="static/js/pages/admin.js"></script>
+    <script type="module" src="static/js/pages/admin.js"></script>
 </body>
 
 </html>
