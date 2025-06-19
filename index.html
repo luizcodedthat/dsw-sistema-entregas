@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="static/css/componentes.css" />
     <link rel="stylesheet" href="static/css/home.css" />
     <title>Sistema de Entregas</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
@@ -30,7 +32,7 @@
         </div>
     </nav>
 
-    <main>
+    <main id="app">
         <section class="rastreamento">
             <div class="texto-principal">
                 <header>
@@ -38,19 +40,22 @@
                     <p>Rastreador de entregas da IFdex. Rastreie usando o código da entrega ou seu CPF/CNPJ.</p>
                 </header>
 
-                <form id="form-rastreamento" action="rastreamento.html" method="GET">
+                <form id="form-rastreamento" @submit="redirecionarBuscaPorStatus">
                     <div class="grupo-campo">
-                        <input type="text" id="codigo" name="codigo"
-                            placeholder="Digite seu código ou CPF/CNPJ para rastrear" required />
+                        <input @input="formatarCPFCNPJ" type="text" id="codigo" name="codigo"
+                            placeholder="Digite seu código ou CPF/CNPJ para rastrear" v-model="codigo" required />
                         <button type="submit" class="button">Rastrear</button>
                     </div>
                 </form>
+                <!-- Fazer com que a página já abra na opção de Status -->
                 <a href="rastreamento.html" class="link">Ou rastreie por status clicando aqui!</a>
 
             </div>
             <div class="imagem-lateral"></div>
         </section>
     </main>
+
+    <script type="module" src="static/js/pages/home.js"></script>
 </body>
 
 </html>

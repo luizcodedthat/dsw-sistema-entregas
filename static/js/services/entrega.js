@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./config";
+import { API_BASE_URL } from "./config.js";
 
 export async function getEntregaPorId(id) {
   const response = await fetch(`${API_BASE_URL}/entregas/${id}`);

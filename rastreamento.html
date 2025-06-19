@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="static/css/layout.css">
     <link rel="stylesheet" href="static/css/componentes.css" />
     <link rel="stylesheet" href="static/css/rastreamento.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
@@ -31,22 +33,34 @@
         </div>
     </nav>
 
-    <main>
+    <main id="app">
 
         <section>
-          <h1>Rastreamento de Entregas</h1>
+          <h1>Rastreamento de entrega</h1>
+            <div id="filtros">
+                <select class="select-aside" name="tipo-filtro" id="tipo-filtro" v-model="tipoFiltro">
+                    <option value="codigo">Código</option>
+                    <option value="cliente">Cliente</option>
+                    <option value="status">Status</option>
+                </select>
 
-          <label for="tipoBusca">Buscar por:</label>
-          <select id="tipoBusca">
-            <option value="codigo">Código</option>
-            <option value="clienteId">Cliente</option>
-            <option value="status">Status</option>
-          </select>
+                <input class="input-busca" type="text" v-if="tipoFiltro == 'codigo'" id="filtro-codigo" v-model="codigoRastreamento" placeholder="Insira o código de rastreamento...">
+                
+                <input class="input-busca" type="text" v-if="tipoFiltro == 'cliente'" id="filtro-codigo" v-model="cpfCNPJ" @input="formatarCPFCNPJ($event)" placeholder="Insira o CPF/CNPJ...">
 
-          <input type="text" id="termoBusca" placeholder="Digite o termo da busca">
-          <button>Buscar</button>
+                <select class="input-busca" v-if="tipoFiltro == 'status'" name="status" id="status">
+                    <option value="">Selecione o status...</option>
+                    <option value="em_preparo">Em preparo</option>
+                    <option value="a_caminho">À caminho</option>
+                    <option value="entregue">Entregue</option>
+                </select>
 
-          <div id="resultado"></div>
+                <button class="button" @click="">Buscar</button>
+            </div>
+
+            <div class="resultado">
+
+            </div>
 
       </section>
 
