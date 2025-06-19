@@ -44,6 +44,11 @@ main {
     color: var(--verde-claro);
 }
 
+.botao-secao-ativa {
+    color: var(--verde-claro);
+    font-weight: 600;
+}
+
 .secao {
     width: 100%;
     border-radius: 10px;
