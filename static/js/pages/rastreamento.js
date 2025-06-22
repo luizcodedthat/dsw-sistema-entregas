@@ -1,4 +1,5 @@
 // rastreamento.js
+import { listarEntregas } from "../services/entrega.js";
 import { getEntregaPorId, getHistoricoEntrega, getTodasEntregas } from '../services/entrega.js';
 import { formatarCPFCNPJ } from '../utils/formatter.js';
 
@@ -90,3 +91,19 @@ function montarHtmlEntrega(entrega) {
     </div>
   `;
 }
+
+window.onload = async () => {
+  const entregas = await listarEntregas();
+  const container = document.getElementById("lista-entregas");
+
+  entregas.forEach(e => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <strong>Entrega #${e.id}</strong><br>
+      Cliente: ${e.clienteId} | Encomenda: ${e.encomendaId} | Rota: ${e.rotaId}<br>
+      Status: ${e.status}<br>
+      Data estimada: ${e.dataEstimada}<br><br>
+    `;
+    container.appendChild(div);
+  });
+};
