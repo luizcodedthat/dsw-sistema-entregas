@@ -17,3 +17,8 @@ export async function getTodasEntregas() {
   if (!response.ok) throw new Error("Erro ao buscar entregas");
   return await response.json();
 }
+
+export async function listarEntregas() {
+  const resposta = await fetch("http://localhost:3000/entregas");
+  return await resposta.json();
+}
