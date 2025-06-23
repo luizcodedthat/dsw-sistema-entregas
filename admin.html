@@ -53,7 +53,8 @@
                 <input type="text" id="filtro-nome" placeholder="Filtrar pelo nome..." v-model="filtroNome">
 
                 <label for="filtro-cpfcnpj">Filtrar por CPF/CNPJ:</label>
-                <input type="text" id="filtro-cpfcnpj" placeholder="Filtrar pelo CPF/CNPJ..." v-model="filtroCPFCNPJ" @input="formatarCPFCNPJ($event, 1)">
+                <input type="text" id="filtro-cpfcnpj" placeholder="Filtrar pelo CPF/CNPJ..." v-model="filtroCPFCNPJ"
+                    @input="formatarCPFCNPJ($event, 1)">
 
                 <button class="novo-cadastro">+ Novo cliente</button>
             </div>
@@ -68,9 +69,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- As linhas da tabela serão inseridas aqui -->
+                    <!-- aqui o Vue preenche automaticamente -->
+                    <tr v-for="cliente in clientes" :key="cliente.id">
+                        <td>{{ cliente.nomeCompleto }}</td>
+                        <td>{{ cliente.cpfCnpj }}</td>
+                        <td>{{ cliente.email }}</td>
+                        <td>{{ cliente.endereco }}</td>
+                    </tr>
                 </tbody>
             </table>
+
 
         </section>
 

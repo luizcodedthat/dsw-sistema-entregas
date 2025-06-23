@@ -1,6 +1,5 @@
 import { API_BASE_URL } from "./config.js";
 
-
 export async function getTodosClientes() {
   try {
     const response = await fetch(`${API_BASE_URL}clientes`);
