@@ -1,19 +1,19 @@
 import { API_BASE_URL } from "./config.js";
 
 export async function getEntregaPorId(id) {
-  const response = await fetch(`${API_BASE_URL}/entregas/${id}`);
+  const response = await fetch(`${API_BASE_URL}entregas/${id}`);
   if (!response.ok) throw new Error("Entrega não encontrada");
   return await response.json();
 }
 
 export async function getHistoricoEntrega(id) {
-  const response = await fetch(`${API_BASE_URL}/historico?entregaId=${id}`);
+  const response = await fetch(`${API_BASE_URL}historico?entregaId=${id}`);
   if (!response.ok) throw new Error("Histórico não encontrado");
   return await response.json();
 }
 
 export async function getTodasEntregas() {
-  const response = await fetch(`${API_BASE_URL}/entregas`);
+  const response = await fetch(`${API_BASE_URL}entregas`);
   if (!response.ok) throw new Error("Erro ao buscar entregas");
   return await response.json();
 }
