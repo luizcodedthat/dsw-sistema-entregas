@@ -2,71 +2,77 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet" />
-    <title>Rastreamente de entrega</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+    rel="stylesheet" />
 
-    <link rel="stylesheet" href="static/css/base.css" />
-    <link rel="stylesheet" href="static/css/layout.css">
-    <link rel="stylesheet" href="static/css/componentes.css" />
-    <link rel="stylesheet" href="static/css/rastreamento.css" />
+  <title>Rastreamento de entrega</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="static/css/base.css" />
+  <link rel="stylesheet" href="static/css/layout.css" />
+  <link rel="stylesheet" href="static/css/componentes.css" />
+  <link rel="stylesheet" href="static/css/rastreamento.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
+  <nav class="navbar">
+    <div class="nav-section logo"><a href="/" class="link-home">IFdex</a></div>
+    <div class="nav-section center">
+      <a href="rastreamento.html" class="nav-link">Rastreamento</a>
+    </div>
+    <div class="nav-section right">
+      <a href="admin.html" class="nav-link">Painel de Administrador</a>
+    </div>
+  </nav>
 
-    <nav class="navbar">
-        <div class="nav-section logo"><a href="/" class="link-home">IFdex</a></div>
+  <main id="app">
+    <section>
+      <h1>Rastreamento de entrega</h1>
 
-        <div class="nav-section center">
-            <a href="rastreamento.html" class="nav-link">Rastreamento</a>
+      <div id="filtros">
+        <select class="select-aside" name="tipo-filtro" id="tipo-filtro" v-model="tipoFiltro">
+          <option value="codigo">Código</option>
+          <option value="cliente">Cliente</option>
+          <option value="status">Status</option>
+        </select>
+
+        <input class="input-busca" type="text" v-if="tipoFiltro === 'codigo'" v-model="codigoRastreamento"
+          placeholder="Insira o código de rastreamento..." />
+
+        <input class="input-busca" type="text" v-if="tipoFiltro === 'cliente'" v-model="cpfCNPJ"
+          @input="formatarCPFCNPJ($event)" placeholder="Insira o CPF/CNPJ..." />
+
+        <select class="input-busca" v-if="tipoFiltro === 'status'" v-model="statusSelecionado">
+          <option value="">Selecione o status...</option>
+          <option value="em_preparo">Em preparo</option>
+          <option value="a_caminho">À caminho</option>
+          <option value="entregue">Entregue</option>
+        </select>
+
+        <button class="button" @click="buscarEntregas">Buscar</button>
+      </div>
+
+      <div class="resultado" id="lista-entregas">
+        <div v-if="entregasFiltradas.length === 0">
+          Nenhuma entrega encontrada.
         </div>
 
-        <div class="nav-section right">
-            <a href="admin.html" class="nav-link">Painel de Administrador</a>
+        <div v-for="entrega in entregasFiltradas" :key="entrega.id" class="entrega-item">
+          <p><strong>Código:</strong> {{ entrega.id }}</p>
+          <p><strong>Cliente:</strong> {{ entrega.cpfCNPJ }}</p>
+          <p><strong>Status:</strong> {{ entrega.status }}</p>
         </div>
-    </nav>
+      </div>
+    </section>
+  </main>
 
-    <main id="app">
-
-        <section>
-          <h1>Rastreamento de entrega</h1>
-            <div id="filtros">
-                <select class="select-aside" name="tipo-filtro" id="tipo-filtro" v-model="tipoFiltro">
-                    <option value="codigo">Código</option>
-                    <option value="cliente">Cliente</option>
-                    <option value="status">Status</option>
-                </select>
-
-                <input class="input-busca" type="text" v-if="tipoFiltro == 'codigo'" id="filtro-codigo" v-model="codigoRastreamento" placeholder="Insira o código de rastreamento...">
-                
-                <input class="input-busca" type="text" v-if="tipoFiltro == 'cliente'" id="filtro-codigo" v-model="cpfCNPJ" @input="formatarCPFCNPJ($event)" placeholder="Insira o CPF/CNPJ...">
-
-                <select class="input-busca" v-if="tipoFiltro == 'status'" name="status" id="status">
-                    <option value="">Selecione o status...</option>
-                    <option value="em_preparo">Em preparo</option>
-                    <option value="a_caminho">À caminho</option>
-                    <option value="entregue">Entregue</option>
-                </select>
-
-                <button class="button" @click="">Buscar</button>
-            </div>
-
-            <div class="resultado">
-                <div id="lista-entregas"></div>
-            </div>
-
-      </section>
-
-    </main>
-        <script type="module" src="static/js/pages/rastreamento.js"></script>
-        
+  <script type="module" src="static/js/pages/rastreamento.js"></script>
 </body>
 
 </html>
