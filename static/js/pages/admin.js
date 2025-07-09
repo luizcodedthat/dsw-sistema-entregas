@@ -1,6 +1,7 @@
 import { formatarCPFCNPJ } from '../utils/formatter.js';
 import { getTodosClientes } from '../services/cliente.js';
 import { getTodasEncomendas } from '../services/encomenda.js';
+import { getTodasRotas } from '../services/rota.js';
 
 
 const { createApp } = Vue;
@@ -53,6 +54,7 @@ createApp({
       // aqui chamamos a função e atribuímos o resultado
       this.clientes = await getTodosClientes();
       this.encomendas = await getTodasEncomendas();
+      this.rotas = await getTodasRotas();
     } catch (error) {
       console.error('Erro ao carregar clientes:', error.message);
       alert('Não foi possível carregar os clientes.');
