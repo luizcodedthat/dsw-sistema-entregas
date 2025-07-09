@@ -1,27 +1,58 @@
 import { formatarCPFCNPJ } from '../utils/formatter.js';
 import { getTodosClientes } from '../services/cliente.js';
+import { getTodasEncomendas } from '../services/encomenda.js';
+
 
 const { createApp } = Vue;
 
 createApp({
   data() {
-    return {
-      filtroNome: '',
-      filtroCPFCNPJ: '',
-      clientes: [],    // vai receber os clientes da API
-      encomendas: [],
-      rotas: [],
-      entregas: [],
-      centros: []
+  return {
+    filtroNome: '',
+    filtroCPFCNPJ: '',
+    clientes: [],
+    encomendas: [],
+    rotas: [],
+    entregas: [],
+    centros: [],
+
+    // ADICIONADO para o modal
+    mostrarModal: false,
+    novaEntrega: {
+      clienteId: '',
+      encomendaId: '',
+      rotaId: ''
+    }
+  };
+},
+
+  methods: {
+  formatarCPFCNPJ,
+
+  // NOVOS MÉTODOS DO MODAL
+  abrirModal() {
+    this.mostrarModal = true;
+  },
+  fecharModal() {
+    this.mostrarModal = false;
+    this.novaEntrega = {
+      clienteId: '',
+      encomendaId: '',
+      rotaId: ''
     };
   },
-  methods: {
-    formatarCPFCNPJ
-  },
+  cadastrarEntrega() {
+    console.log("Nova entrega:", this.novaEntrega);
+    alert("Entrega cadastrada com sucesso!");
+    this.fecharModal();
+  }
+},
+
   async mounted() {
     try {
       // aqui chamamos a função e atribuímos o resultado
       this.clientes = await getTodosClientes();
+      this.encomendas = await getTodasEncomendas();
     } catch (error) {
       console.error('Erro ao carregar clientes:', error.message);
       alert('Não foi possível carregar os clientes.');

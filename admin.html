@@ -182,7 +182,45 @@
                 <label for="filtro-data">Filtrar por Data:</label>
                 <input type="date" id="filtro-data" name="filtro-data">
 
-                <button class="novo-cadastro">+ Nova entrega</button>
+                <button class="novo-cadastro" @click="abrirModal">+ Nova entrega</button>
+
+                <div class="modal" v-if="mostrarModal">
+                    
+                <div class="modal-content">
+                <h2>Nova Entrega</h2>
+
+                <form @submit.prevent="cadastrarEntrega">
+                    <label>Cliente:</label>
+                    <select v-model="novaEntrega.clienteId" required>
+                    <option disabled value="">Selecione um cliente</option>
+                    <option v-for="cliente in clientes" :key="cliente.id" :value="cliente.id">
+                        {{ cliente.nomeCompleto }}
+                    </option>
+                    </select>
+
+                    <label>Encomenda:</label>
+                    <select v-model="novaEntrega.encomendaId" required>
+                    <option disabled value="">Selecione uma encomenda</option>
+                    <option v-for="encomenda in encomendas" :key="encomenda.id" :value="encomenda.id">
+                        {{ encomenda.descricao }} ({{ encomenda.tipo }})
+                    </option>
+                    </select>
+
+                    <label>Rota:</label>
+                    <select v-model="novaEntrega.rotaId" required>
+                    <option disabled value="">Selecione uma rota</option>
+                    <option v-for="rota in rotas" :key="rota.id" :value="rota.id">
+                        {{ rota.origem }} → {{ rota.destino }} ({{ rota.distanciaKm }} km)
+                    </option>
+                    </select>
+
+                    <div class="botoes">
+                    <button type="submit">Salvar</button>
+                    <button type="button" @click="fecharModal">Cancelar</button>
+                    </div>
+                </form>
+                </div>
+            </div>
 
             </div>
 
@@ -223,6 +261,11 @@
         </section>
 
     </main>
+
+    <!-- Vue App: Botão + Modal -->
+
+
+
 
 
     <script type="module" src="static/js/pages/admin.js"></script>
