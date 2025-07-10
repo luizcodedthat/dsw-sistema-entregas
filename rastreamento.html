@@ -65,7 +65,7 @@
 
         <div v-for="entrega in entregasFiltradas" :key="entrega.id" class="entrega-item">
           <p><strong>Código:</strong> {{ entrega.id }}</p>
-          <p><strong>Cliente:</strong> {{ entrega.cpfCNPJ }}</p>
+          <p><strong>Cliente:</strong> {{getClienteId(entrega.clienteId).nomeCompleto }}</p>
           <p><strong>Status:</strong> {{ entrega.status }}</p>
         </div>
       </div>
