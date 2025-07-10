@@ -11,4 +11,21 @@ export async function getTodasEntregas() {
   }
 }
 
+export async function postNovaEntrega(entrega) {
+  try {
+    const resposta = await fetch(`${API_BASE_URL}entregas`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entrega)
+    });
 
+    if (!resposta.ok) {
+      throw new Error('Erro ao salvar entrega');
+    }
+
+    return await resposta.json();
+  } catch (erro) {
+    console.error('Erro ao enviar entrega:', erro.message);
+    throw erro;
+  }
+}

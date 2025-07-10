@@ -3,6 +3,7 @@ import { getTodosClientes } from '../services/cliente.js';
 import { getTodosCentros } from '../services/centro.js';
 import { getTodasEncomendas } from '../services/encomenda.js';
 import { getTodasRotas } from '../services/rota.js';
+import { postNovaEntrega } from '../services/entrega.js';
 
 
 const { createApp } = Vue;
@@ -23,7 +24,8 @@ createApp({
     novaEntrega: {
       clienteId: '',
       encomendaId: '',
-      rotaId: ''
+      rotaId: '',
+      status: ''
     }
   };
 },
@@ -55,11 +57,30 @@ createApp({
     };
 
   },
-  cadastrarEntrega() {
-    console.log("Nova entrega:", this.novaEntrega);
+  async cadastrarEntrega() {
+  try {
+    const nova = {
+      clienteId: parseInt(this.novaEntrega.clienteId),
+      encomendaId: parseInt(this.novaEntrega.encomendaId),
+      rotaId: parseInt(this.novaEntrega.rotaId),
+      dataEstimada: this.novaEntrega.dataEstimada,
+      status: this.novaEntrega.status,
+      historico: [
+        {
+          dataHora: new Date().toISOString(),
+          status: this.novaEntrega.status
+        }
+      ]
+    };
+
+    await postNovaEntrega(nova);
     alert("Entrega cadastrada com sucesso!");
     this.fecharModal();
+  } catch (e) {
+    console.error("Erro ao cadastrar entrega:", e);
+    alert("Erro ao cadastrar entrega.");
   }
+}
 },
 
   async mounted() {
