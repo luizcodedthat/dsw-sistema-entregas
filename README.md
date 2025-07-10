@@ -15,6 +15,10 @@
 |---- rastreamento.html - Página de Rastreamento de Entregas
 ```
 
+## API
+
+Simulamos a API com a extensão Mock Server do VS Code utilizando o arquivo fake-api.json como db.
+
 ## Autores
 - [@LucasLins13](https://github.com/LucasLins13)
 - [@luizcodedthat](https://github.com/luizcodedthat)

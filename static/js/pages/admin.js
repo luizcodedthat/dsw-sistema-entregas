@@ -1,5 +1,6 @@
 import { formatarCPFCNPJ } from '../utils/formatter.js';
 import { getTodosClientes } from '../services/cliente.js';
+import { getTodosCentros } from '../services/centro.js';
 import { getTodasEncomendas } from '../services/encomenda.js';
 import { getTodasRotas } from '../services/rota.js';
 import { postNovaEntrega } from '../services/entrega.js';
@@ -30,6 +31,17 @@ createApp({
 },
 
   methods: {
+
+    async carregarCentros() {
+    try {
+      this.centros = await getTodosCentros();
+    } catch (error) {
+      console.error('Erro ao carregar centros:', error.message);
+      alert('Não foi possível carregar os centros.');
+    }
+  },
+    
+
   formatarCPFCNPJ,
 
   // NOVOS MÉTODOS DO MODAL
@@ -43,6 +55,7 @@ createApp({
       encomendaId: '',
       rotaId: ''
     };
+
   },
   async cadastrarEntrega() {
   try {
@@ -80,7 +93,10 @@ createApp({
       console.error('Erro ao carregar clientes:', error.message);
       alert('Não foi possível carregar os clientes.');
     }
+  
+   await this.carregarCentros();
   }
+  
 }).mount('#app');
 
 // Mantém o restante do seu código de navegação por botões:
