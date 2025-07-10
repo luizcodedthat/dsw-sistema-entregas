@@ -1,288 +1,330 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet" />
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <title>Painel de Administrador</title>
 
     <link rel="stylesheet" href="static/css/base.css" />
-    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/layout.css" />
     <link rel="stylesheet" href="static/css/componentes.css" />
     <link rel="stylesheet" href="static/css/admin.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <nav class="navbar">
-        <div class="nav-section logo"><a href="/" class="link-home">IFdex</a></div>
+      <div class="nav-section logo">
+        <a href="/" class="link-home">IFdex</a>
+      </div>
 
-        <div class="nav-section center">
-            <a href="rastreamento.html" class="nav-link">Rastreamento</a>
-        </div>
+      <div class="nav-section center">
+        <a href="rastreamento.html" class="nav-link">Rastreamento</a>
+      </div>
 
-        <div class="nav-section right">
-            <a href="admin.html" class="nav-link">Painel de Administrador</a>
-        </div>
+      <div class="nav-section right">
+        <a href="admin.html" class="nav-link">Painel de Administrador</a>
+      </div>
     </nav>
 
     <main id="app">
+      <nav class="topbar">
+        <ul>
+          <li>
+            <button class="botao-secao botao-secao-ativa" id="botao-clientes">
+              Clientes
+            </button>
+          </li>
+          <li>
+            <button class="botao-secao" id="botao-encomendas">
+              Encomendas
+            </button>
+          </li>
+          <li><button class="botao-secao" id="botao-rotas">Rotas</button></li>
+          <li>
+            <button class="botao-secao" id="botao-entregas">Entregas</button>
+          </li>
+          <li>
+            <button class="botao-secao" id="botao-centros">Centros</button>
+          </li>
+        </ul>
+      </nav>
 
-        <nav class="topbar">
-            <ul>
-                <li><button class="botao-secao botao-secao-ativa" id="botao-clientes">Clientes</button></li>
-                <li><button class="botao-secao" id="botao-encomendas">Encomendas</button></li>
-                <li><button class="botao-secao" id="botao-rotas">Rotas</button></li>
-                <li><button class="botao-secao" id="botao-entregas">Entregas</button></li>
-                <li><button class="botao-secao" id="botao-centros">Centros</button></li>
-            </ul>
-        </nav>
+      <section id="secao-clientes" class="secao secao-ativa">
+        <h1>Gerencie os clientes cadastrados</h1>
+        <div id="filtros">
+          <label for="filtro-nome">Filtrar por Nome:</label>
+          <input
+            type="text"
+            id="filtro-nome"
+            placeholder="Filtrar pelo nome..."
+            v-model="filtroNome"
+          />
 
-        <section id="secao-clientes" class="secao secao-ativa">
+          <label for="filtro-cpfcnpj">Filtrar por CPF/CNPJ:</label>
+          <input
+            type="text"
+            id="filtro-cpfcnpj"
+            placeholder="Filtrar pelo CPF/CNPJ..."
+            v-model="filtroCPFCNPJ"
+            @input="formatarCPFCNPJ($event, 1)"
+          />
 
-            <h1>Gerencie os clientes cadastrados</h1>
-            <div id="filtros">
-                <label for="filtro-nome">Filtrar por Nome:</label>
-                <input type="text" id="filtro-nome" placeholder="Filtrar pelo nome..." v-model="filtroNome">
+          <button class="novo-cadastro">+ Novo cliente</button>
+        </div>
 
-                <label for="filtro-cpfcnpj">Filtrar por CPF/CNPJ:</label>
-                <input type="text" id="filtro-cpfcnpj" placeholder="Filtrar pelo CPF/CNPJ..." v-model="filtroCPFCNPJ"
-                    @input="formatarCPFCNPJ($event, 1)">
+        <table id="tabela-clientes" class="tabela-listagem">
+          <thead>
+            <tr>
+              <th>Nome Completo</th>
+              <th>CPF/CNPJ</th>
+              <th>E-mail</th>
+              <th>Endereço</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- aqui o Vue preenche automaticamente -->
+            <tr v-for="cliente in clientes" :key="cliente.id">
+              <td>{{ cliente.nomeCompleto }}</td>
+              <td>{{ cliente.cpfCnpj }}</td>
+              <td>{{ cliente.email }}</td>
+              <td>{{ cliente.endereco }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-                <button class="novo-cadastro">+ Novo cliente</button>
-            </div>
+      <section id="secao-encomendas" class="secao">
+        <h1>Gerencie as encomendas cadastradas</h1>
+        <div id="filtros">
+          <label for="filtro-tipo">Filtrar por Tipo:</label>
+          <select name="filtro-tipo" id="filtro-tipo">
+            <option value="nenhum">Selecione o tipo...</option>
+            <option value="caixa">Caixa</option>
+            <option value="documento">Documento</option>
+            <option value="palete">Palete</option>
+          </select>
 
-            <table id="tabela-clientes" class="tabela-listagem">
-                <thead>
-                    <tr>
-                        <th>Nome Completo</th>
-                        <th>CPF/CNPJ</th>
-                        <th>E-mail</th>
-                        <th>Endereço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- aqui o Vue preenche automaticamente -->
-                    <tr v-for="cliente in clientes" :key="cliente.id">
-                        <td>{{ cliente.nomeCompleto }}</td>
-                        <td>{{ cliente.cpfCnpj }}</td>
-                        <td>{{ cliente.email }}</td>
-                        <td>{{ cliente.endereco }}</td>
-                    </tr>
-                </tbody>
-            </table>
+          <label for="filtro-peso">Filtrar pelo peso (kg):</label>
+          <input
+            type="text"
+            id="filtro-peso"
+            placeholder="Filtrar pelo Peso (kg)..."
+          />
 
+          <button class="novo-cadastro">+ Nova encomenda</button>
+        </div>
 
-        </section>
+        <table id="tabela-encomendas" class="tabela-listagem">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Endereço</th>
+              <th>Peso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As linhas da tabela serão inseridas aqui -->
+          </tbody>
+        </table>
+      </section>
 
-        <section id="secao-encomendas" class="secao">
+      <section id="secao-rotas" class="secao">
+        <h1>Gerencie as rotas de entrega cadastradas</h1>
+        <div id="filtros">
+          <label for="filtro-origem">Filtrar por Origem:</label>
+          <select name="filtro-origem" id="filtro-origem">
+            <!-- Adicionar os centros existentes com Vue aqui -->
+            <option value="centro">Centro de Distribuição</option>
+          </select>
 
-            <h1>Gerencie as encomendas cadastradas</h1>
-            <div id="filtros">
-                <label for="filtro-tipo">Filtrar por Tipo:</label>
-                <select name="filtro-tipo" id="filtro-tipo">
-                    <option value="nenhum">Selecione o tipo...</option>
-                    <option value="caixa">Caixa</option>
-                    <option value="documento">Documento</option>
-                    <option value="palete">Palete</option>
+          <label for="filtro-destino">Filtrar por Destino:</label>
+          <select name="filtro-destino" id="filtro-destino">
+            <!-- Adicionar os centros existentes com Vue aqui -->
+            <option value="centro">Centro de Distribuição</option>
+          </select>
+
+          <button class="novo-cadastro">+ Nova rota</button>
+        </div>
+
+        <table id="tabela-rotas" class="tabela-listagem">
+          <thead>
+            <tr>
+              <th>Ponto de Origem</th>
+              <th>Pontos Intermediários</th>
+              <th>Ponto de Destino</th>
+              <th>Distância (km)</th>
+              <th>Tempo estimado (h)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As linhas da tabela serão inseridas aqui -->
+          </tbody>
+        </table>
+      </section>
+
+      <section id="secao-entregas" class="secao">
+        <h1>Gerencie as entregas cadastradas</h1>
+        <div id="filtros">
+          <label for="filtro-cliente">Filtrar por Cliente:</label>
+          <select name="filtro-cliente" id="filtro-cliente">
+            <!-- Adicionar os centros existentes com Vue aqui -->
+            <option value="centro">Cliente</option>
+          </select>
+
+          <label for="filtro-rota">Filtrar por Rota:</label>
+          <select name="filtro-rota" id="filtro-rota">
+            <!-- Adicionar os centros existentes com Vue aqui -->
+            <option value="rota">Rota</option>
+          </select>
+
+          <label for="filtro-status">Filtrar por Status:</label>
+          <select name="filtro-status" id="filtro-status">
+            <!-- Adicionar os centros existentes com Vue aqui -->
+            <option value="nenhum">Selecione...</option>
+            <option value="em_preparo">Em preparo</option>
+            <option value="a_caminho">À caminho</option>
+            <option value="entregue">Entregue</option>
+          </select>
+
+          <label for="filtro-data">Filtrar por Data:</label>
+          <input type="date" id="filtro-data" name="filtro-data" />
+
+          <button class="novo-cadastro" @click="abrirModal">
+            + Nova entrega
+          </button>
+
+          <div class="modal" v-if="mostrarModal">
+            <div class="modal-content">
+              <h2>Nova Entrega</h2>
+
+              <form @submit.prevent="cadastrarEntrega">
+                <label>Cliente:</label>
+                <select v-model="novaEntrega.clienteId" required>
+                  <option disabled value="">Selecione um cliente</option>
+                  <option
+                    v-for="cliente in clientes"
+                    :key="cliente.id"
+                    :value="cliente.id"
+                  >
+                    {{ cliente.nomeCompleto }}
+                  </option>
                 </select>
 
-                <label for="filtro-peso">Filtrar pelo peso (kg):</label>
-                <input type="text" id="filtro-peso" placeholder="Filtrar pelo Peso (kg)...">
-
-                <button class="novo-cadastro">+ Nova encomenda</button>
-
-            </div>
-
-            <table id="tabela-encomendas" class="tabela-listagem">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Descrição</th>
-                        <th>Endereço</th>
-                        <th>Peso</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As linhas da tabela serão inseridas aqui -->
-                </tbody>
-            </table>
-
-        </section>
-
-        <section id="secao-rotas" class="secao">
-
-            <h1>Gerencie as rotas de entrega cadastradas</h1>
-            <div id="filtros">
-                <label for="filtro-origem">Filtrar por Origem:</label>
-                <select name="filtro-origem" id="filtro-origem">
-                    <!-- Adicionar os centros existentes com Vue aqui -->
-                    <option value="centro">Centro de Distribuição</option>
+                <label>Encomenda:</label>
+                <select v-model="novaEntrega.encomendaId" required>
+                  <option disabled value="">Selecione uma encomenda</option>
+                  <option
+                    v-for="encomenda in encomendas"
+                    :key="encomenda.id"
+                    :value="encomenda.id"
+                  >
+                    {{ encomenda.descricao }} ({{ encomenda.tipo }})
+                  </option>
                 </select>
 
-                <label for="filtro-destino">Filtrar por Destino:</label>
-                <select name="filtro-destino" id="filtro-destino">
-                    <!-- Adicionar os centros existentes com Vue aqui -->
-                    <option value="centro">Centro de Distribuição</option>
+                <label>Rota:</label>
+                <select v-model="novaEntrega.rotaId" required>
+                  <option disabled value="">Selecione uma rota</option>
+                  <option v-for="rota in rotas" :key="rota.id" :value="rota.id">
+                    {{ rota.origem }} → {{ rota.destino }} ({{ rota.distanciaKm
+                    }} km)
+                  </option>
                 </select>
 
-                <button class="novo-cadastro">+ Nova rota</button>
+                <label>Data Estimada:</label>
+                <input
+                  type="datetime-local"
+                  v-model="novaEntrega.dataEstimada"
+                  required
+                />
 
-            </div>
-
-            <table id="tabela-rotas" class="tabela-listagem">
-                <thead>
-                    <tr>
-                        <th>Ponto de Origem</th>
-                        <th>Pontos Intermediários</th>
-                        <th>Ponto de Destino</th>
-                        <th>Distância (km)</th>
-                        <th>Tempo estimado (h)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As linhas da tabela serão inseridas aqui -->
-                </tbody>
-            </table>
-
-        </section>
-
-        <section id="secao-entregas" class="secao">
-
-            <h1>Gerencie as entregas cadastradas</h1>
-            <div id="filtros">
-                <label for="filtro-cliente">Filtrar por Cliente:</label>
-                <select name="filtro-cliente" id="filtro-cliente">
-                    <!-- Adicionar os centros existentes com Vue aqui -->
-                    <option value="centro">Cliente</option>
+                <label>Status:</label>
+                <select v-model="novaEntrega.status" required>
+                  <option value="" disabled>Selecione o status</option>
+                  <option value="em_preparo">Em Preparo</option>
+                  <option value="a_caminho">A Caminho</option>
+                  <option value="entregue">Entregue</option>
                 </select>
 
-                <label for="filtro-rota">Filtrar por Rota:</label>
-                <select name="filtro-rota" id="filtro-rota">
-                    <!-- Adicionar os centros existentes com Vue aqui -->
-                    <option value="rota">Rota</option>
-                </select>
-
-                <label for="filtro-status">Filtrar por Status:</label>
-                <select name="filtro-status" id="filtro-status">
-                    <!-- Adicionar os centros existentes com Vue aqui -->
-                    <option value="nenhum">Selecione...</option>
-                    <option value="em_preparo">Em preparo</option>
-                    <option value="a_caminho">À caminho</option>
-                    <option value="entregue">Entregue</option>
-                </select>
-
-                <label for="filtro-data">Filtrar por Data:</label>
-                <input type="date" id="filtro-data" name="filtro-data">
-
-                <button class="novo-cadastro" @click="abrirModal">+ Nova entrega</button>
-
-                <div class="modal" v-if="mostrarModal">
-                    
-                <div class="modal-content">
-                <h2>Nova Entrega</h2>
-
-                <form @submit.prevent="cadastrarEntrega">
-                    <label>Cliente:</label>
-                    <select v-model="novaEntrega.clienteId" required>
-                    <option disabled value="">Selecione um cliente</option>
-                    <option v-for="cliente in clientes" :key="cliente.id" :value="cliente.id">
-                        {{ cliente.nomeCompleto }}
-                    </option>
-                    </select>
-
-                    <label>Encomenda:</label>
-                    <select v-model="novaEntrega.encomendaId" required>
-                    <option disabled value="">Selecione uma encomenda</option>
-                    <option v-for="encomenda in encomendas" :key="encomenda.id" :value="encomenda.id">
-                        {{ encomenda.descricao }} ({{ encomenda.tipo }})
-                    </option>
-                    </select>
-
-                    <label>Rota:</label>
-                    <select v-model="novaEntrega.rotaId" required>
-                    <option disabled value="">Selecione uma rota</option>
-                    <option v-for="rota in rotas" :key="rota.id" :value="rota.id">
-                        {{ rota.origem }} → {{ rota.destino }} ({{ rota.distanciaKm }} km)
-                    </option>
-                    </select>
-
-                    <label>Data Estimada:</label>
-                    <input type="datetime-local" v-model="novaEntrega.dataEstimada" required />
-
-                    <label>Status:</label>
-                    <select v-model="novaEntrega.status" required>
-                    <option value="" disabled>Selecione o status</option>
-                    <option value="em_preparo">Em Preparo</option>
-                    <option value="a_caminho">A Caminho</option>
-                    <option value="entregue">Entregue</option>
-                    </select>
-
-                    <div class="botoes">
-                    <button type="submit">Salvar</button>
-                    <button type="button" @click="fecharModal">Cancelar</button>
-                    </div>
-                </form>
+                <div class="botoes">
+                  <button class="button" type="submit">Salvar</button>
+                  <button
+                    class="remover-btn"
+                    type="button"
+                    @click="fecharModal"
+                  >
+                    Cancelar
+                  </button>
                 </div>
+              </form>
             </div>
+          </div>
+        </div>
 
-            </div>
+        <table id="tabela-rotas" class="tabela-listagem">
+          <thead>
+            <tr>
+              <th>Ponto de Origem</th>
+              <th>Pontos Intermediários</th>
+              <th>Ponto de Destino</th>
+              <th>Distância (km)</th>
+              <th>Tempo estimado (h)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="rota in rotas" :key="rota.id">
+              <td>{{ rota.origem }}</td>
+              <td>
+                <ul>
+                  <li
+                    v-for="(centro, index) in rota.centrosIntermediarios"
+                    :key="index"
+                  >
+                    {{ centro }}
+                  </li>
+                  <li v-if="rota.centrosIntermediarios.length === 0">-</li>
+                </ul>
+              </td>
+              <td>{{ rota.destino }}</td>
+              <td>{{ rota.distanciaKm }}</td>
+              <td>{{ rota.tempoEstimadoH }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-            <table id="tabela-rotas" class="tabela-listagem">
-                <thead>
-                    <tr>
-                        <th>Ponto de Origem</th>
-                        <th>Pontos Intermediários</th>
-                        <th>Ponto de Destino</th>
-                        <th>Distância (km)</th>
-                        <th>Tempo estimado (h)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As linhas da tabela serão inseridas aqui -->
-                </tbody>
-            </table>
+      <section id="secao-centros" class="secao">
+        <h1>Consulte os centros de distribuição</h1>
 
-        </section>
-
-        <section id="secao-centros" class="secao">
-
-            <h1>Consulte os centros de distribuição</h1>
-
-            <table id="tabela-encomendas" class="tabela-listagem">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Endereço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As linhas da tabela serão inseridas aqui -->
-                      <tr v-for="centro in centros" :key="centro.id">
-                        <td>{{ centro.nome }}</td>
-                        <td>{{ centro.endereco }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </section>
-
+        <table id="tabela-encomendas" class="tabela-listagem">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Endereço</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As linhas da tabela serão inseridas aqui -->
+            <tr v-for="centro in centros" :key="centro.id">
+              <td>{{ centro.nome }}</td>
+              <td>{{ centro.endereco }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </main>
 
     <!-- Vue App: Botão + Modal -->
 
-
-
-
-
     <script type="module" src="static/js/pages/admin.js"></script>
-</body>
-
+  </body>
 </html>
