@@ -214,6 +214,17 @@
                     </option>
                     </select>
 
+                    <label>Data Estimada:</label>
+                    <input type="datetime-local" v-model="novaEntrega.dataEstimada" required />
+
+                    <label>Status:</label>
+                    <select v-model="novaEntrega.status" required>
+                    <option value="" disabled>Selecione o status</option>
+                    <option value="em_preparo">Em Preparo</option>
+                    <option value="a_caminho">A Caminho</option>
+                    <option value="entregue">Entregue</option>
+                    </select>
+
                     <div class="botoes">
                     <button type="submit">Salvar</button>
                     <button type="button" @click="fecharModal">Cancelar</button>
