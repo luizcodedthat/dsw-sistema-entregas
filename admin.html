@@ -212,11 +212,14 @@
                     <tr>
                         <th>Nome</th>
                         <th>Endereço</th>
-                        <th>Cidade</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- As linhas da tabela serão inseridas aqui -->
+                      <tr v-for="centro in centros" :key="centro.id">
+                        <td>{{ centro.nome }}</td>
+                        <td>{{ centro.endereco }}</td>
+                    </tr>
                 </tbody>
             </table>
 

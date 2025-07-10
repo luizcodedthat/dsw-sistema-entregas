@@ -10,3 +10,13 @@ export async function getTodosClientes() {
     return [];
   }
 }
+export async function getClienteId(id) {
+  try {
+    const cliente = await getTodosClientes();
+    const TodosClientes = cliente.find(cliente => cliente.id === id);
+    return TodosClientes || null;
+  } catch (error) {
+    console.error("Erro ao buscar entrega por ID:", error);
+    return null;
+  }
+}

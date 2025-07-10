@@ -1,5 +1,5 @@
 import { getTodasEntregas } from '../services/entrega.js';
-import { getTodosClientes } from '../services/cliente.js';
+import { getTodosClientes, getClienteId } from '../services/cliente.js';
 import { formatarCPFCNPJ } from '../utils/formatter.js';
 
 const { createApp } = Vue;
@@ -17,8 +17,8 @@ createApp({
   },
 
   async mounted() {
-    this.entregas = await getTodasEntregas();
-    this.clientes = await getTodosClientes();
+    await this.buscarEntregas();
+    await this.carregarClientes();
   },
 
   computed: {
@@ -40,8 +40,20 @@ createApp({
 
   methods: {
     async buscarEntregas() {
-      this.entregas = await getTodasEntregas();
-      this.clientes = await getTodosClientes();
+      const entregas = await getTodasEntregas()
+        this.entregas = entregas;
+      },
+
+    async carregarClientes() {
+      try {
+        this.clientes = await getTodosClientes();
+      } catch (error) {
+        console.error('Erro ao carregar clientes:', error.message);
+        alert('Não foi possível carregar os clientes.');
+      }
+    },
+    getClienteId(id) {
+      return this.clientes.find(cliente => cliente.id === id) || null;
     },
 
     formatarCPFCNPJ
