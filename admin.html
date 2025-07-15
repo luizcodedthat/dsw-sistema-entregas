@@ -74,7 +74,7 @@
             id="filtro-cpfcnpj"
             placeholder="Filtrar pelo CPF/CNPJ..."
             v-model="filtroCPFCNPJ"
-            @input="formatarCPFCNPJ($event, 1)"
+            @input="formatar"
           />
 
           <button class="novo-cadastro">+ Novo cliente</button>
@@ -92,8 +92,8 @@
           <tbody>
             <!-- aqui o Vue preenche automaticamente -->
             <tr v-for="cliente in clientes" :key="cliente.id">
-              <td>{{ cliente.nomeCompleto }}</td>
-              <td>{{ cliente.cpfCnpj }}</td>
+              <td>{{ cliente.nome }}</td>
+              <td>{{ formatarCpfCnpj(cliente.cpfCnpj) }}</td>
               <td>{{ cliente.email }}</td>
               <td>{{ cliente.endereco }}</td>
             </tr>
