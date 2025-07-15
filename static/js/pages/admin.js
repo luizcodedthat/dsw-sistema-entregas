@@ -1,4 +1,4 @@
-import { formatarCPFCNPJ } from '../utils/formatter.js';
+import { formatarCpfCnpj } from '../utils/formatter.js';
 import { getTodosClientes } from '../services/cliente.js';
 import { getTodosCentros } from '../services/centro.js';
 import { getTodasEncomendas } from '../services/encomenda.js';
@@ -50,8 +50,11 @@ createApp({
       }
     },
 
-    formatarCPFCNPJ,
+    formatarCpfCnpj,
 
+    formatar () {
+      this.filtroCPFCNPJ = formatarCpfCnpj(this.filtroCPFCNPJ)
+    },
 
     // Melhor mudar essas funções de modal para funcionarem com todos os modais,
     // pra não ter que criar uma função para cada modal
