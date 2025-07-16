@@ -31,6 +31,10 @@ createApp({
     this.codigoRastreamento = query_codigo;
     this.cpfCnpj = query_cpfCnpj;
     this.tipoFiltro = query_cpfCnpj ? 'cliente' : 'codigo';
+
+    if (this.codigoRastreamento || this.cpfCnpj) {
+      this.buscarEntregas();
+    }
   },
 
   methods: {
