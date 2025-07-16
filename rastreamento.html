@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <title>Rastreamento de entrega</title>
 
@@ -22,7 +20,9 @@
 
 <body>
   <nav class="navbar">
-    <div class="nav-section logo"><a href="/" class="link-home">IFdex</a></div>
+    <div class="nav-section logo">
+      <a href="/" class="link-home">IFdex</a>
+    </div>
     <div class="nav-section center">
       <a href="rastreamento.html" class="nav-link">Rastreamento</a>
     </div>
@@ -35,39 +35,78 @@
     <section>
       <h1>Rastreamento de entrega</h1>
 
-      <div id="filtros">
+      <form @submit.prevent="buscarEntregas" id="filtros" :class="[{'filtros-com-status': tipoFiltro === 'cliente'}]">
         <select class="select-aside" name="tipo-filtro" id="tipo-filtro" v-model="tipoFiltro">
           <option value="codigo">Código</option>
           <option value="cliente">Cliente</option>
-          <option value="status">Status</option>
         </select>
 
         <input class="input-busca" type="text" v-if="tipoFiltro === 'codigo'" v-model="codigoRastreamento"
-          placeholder="Insira o código de rastreamento..." />
+          placeholder="Insira o código de rastreamento..." required />
 
-        <input class="input-busca" type="text" v-if="tipoFiltro === 'cliente'" v-model="cpfCNPJ"
-          @input="formatarCPFCNPJ($event)" placeholder="Insira o CPF/CNPJ..." />
+        <input class="input-busca" type="text" v-if="tipoFiltro === 'cliente'" v-model="cpfCnpj" @input="formatar"
+          placeholder="Insira o CPF/CNPJ..." required />
 
-        <select class="input-busca" v-if="tipoFiltro === 'status'" v-model="statusSelecionado">
-          <option value="">Selecione o status...</option>
-          <option value="em_preparo">Em preparo</option>
-          <option value="a_caminho">À caminho</option>
-          <option value="entregue">Entregue</option>
-        </select>
+        <button class="button" type="submit">Buscar</button>
+      </form>
 
-        <button class="button" @click="buscarEntregas">Buscar</button>
-      </div>
+      <div class="principal">
+        <div class="resultado" id="lista-entregas">
+          <span v-if="entregasFiltradas.length === 0">
+            Nenhuma entrega encontrada.
+          </span>
 
-      <div class="resultado" id="lista-entregas">
-        <div v-if="entregasFiltradas.length === 0">
-          Nenhuma entrega encontrada.
+          <details :class="['info-entrega', {'info-retratil': entregasFiltradas.length > 1}]" v-for="entrega in entregasFiltradas" open="true" :key="entrega.id">
+            <summary v-if="entregasFiltradas.length > 0">
+              {{ getEncomendaDetalhes(entrega.encomendaId) }} ({{entrega.codigo_rastreamento }})
+            </summary>
+
+
+          <div class="entrega-item">
+            <p>
+              <strong>Código de Rastreamento:</strong> {{
+              entrega.codigo_rastreamento }}
+            </p>
+            <p>
+              <strong>Cliente:</strong> {{ getClienteNome(entrega.clienteId)
+              }}
+            </p>
+            <p>
+              <strong>Detalhes:</strong> {{
+              getEncomendaDetalhes(entrega.encomendaId) }}
+            </p>
+            <p>
+              <strong>Status:</strong> {{ getStatusText(entrega.status) }}
+            </p>
+            <p class="data-estimada">
+              Chegará em {{
+              getDataEstimadaFormatada(entrega.data_estimada) }}
+            </p>
+            <div class="historico-container">
+              <div :class="['historico', { recente: index == 0} ]" v-for="(historico, index) in entrega.historico">
+                <p class="historico-status">
+                  {{ getStatusText(historico.status) }}
+                </p>
+                <p class="historico-data">
+                  {{ getDataFormatada(historico.data) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
         </div>
-
-        <div v-for="entrega in entregasFiltradas" :key="entrega.id" class="entrega-item">
-          <p><strong>Código:</strong> {{ entrega.id }}</p>
-          <p><strong>Cliente:</strong> {{getClienteId(entrega.clienteId).nomeCompleto }}</p>
-          <p><strong>Status:</strong> {{ entrega.status }}</p>
-        </div>
+        <aside>
+          <div class="filtros-extras" v-if="tipoFiltro === 'cliente'">
+            <p>Status:</p>
+            <select id="input-status" class="input-status" v-model="statusSelecionado">
+              <option value="">Selecione o status...</option>
+              <option value="em_preparo">Em preparo</option>
+              <option value="a_caminho">À caminho</option>
+              <option value="entregue">Entregue</option>
+            </select>
+            <button class="button" @click="buscarPorStatus">Filtrar</button>
+          </div>
+        </aside>
       </div>
     </section>
   </main>

@@ -37,18 +37,16 @@
             <div class="texto-principal">
                 <header>
                     <h1>Rastreie sua entrega</h1>
-                    <p>Rastreador de entregas da IFdex. Rastreie usando o código da entrega ou seu CPF/CNPJ.</p>
+                    <p>Rastreador de entregas da IFdex. Rastreie usando o código de rastreamento da entrega ou seu CPF/CNPJ.</p>
                 </header>
 
-                <form id="form-rastreamento" @submit="redirecionarBuscaPorStatus">
+                <form id="form-rastreamento" @submit.prevent="redirecionarBuscaPorMetodo">
                     <div class="grupo-campo">
-                        <input @input="formatarCPFCNPJ" type="text" id="codigo" name="codigo"
+                        <input @input="formatar" type="text" id="codigo" name="codigo"
                             placeholder="Digite seu código ou CPF/CNPJ para rastrear" v-model="codigo" required />
                         <button type="submit" class="button">Rastrear</button>
                     </div>
                 </form>
-                <!-- Fazer com que a página já abra na opção de Status -->
-                <a href="rastreamento.html" class="link">Ou rastreie por status clicando aqui!</a>
 
             </div>
             <div class="imagem-lateral"></div>
