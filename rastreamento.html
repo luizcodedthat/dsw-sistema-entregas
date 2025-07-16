@@ -52,11 +52,17 @@
 
       <div class="principal">
         <div class="resultado" id="lista-entregas">
-          <div v-if="entregasFiltradas.length === 0">
+          <span v-if="entregasFiltradas.length === 0">
             Nenhuma entrega encontrada.
-          </div>
+          </span>
 
-          <div v-for="entrega in entregasFiltradas" :key="entrega.id" class="entrega-item">
+          <details :class="['info-entrega', {'info-retratil': entregasFiltradas.length > 1}]" v-for="entrega in entregasFiltradas" open="true" :key="entrega.id">
+            <summary v-if="entregasFiltradas.length > 0">
+              {{ getEncomendaDetalhes(entrega.encomendaId) }} ({{entrega.codigo_rastreamento }})
+            </summary>
+
+
+          <div class="entrega-item">
             <p>
               <strong>Código de Rastreamento:</strong> {{
               entrega.codigo_rastreamento }}
@@ -72,8 +78,8 @@
             <p>
               <strong>Status:</strong> {{ getStatusText(entrega.status) }}
             </p>
-            <p>
-              <strong>Data estimada de entrega:</strong> Chegará em {{
+            <p class="data-estimada">
+              Chegará em {{
               getDataEstimadaFormatada(entrega.data_estimada) }}
             </p>
             <div class="historico-container">
@@ -87,7 +93,7 @@
               </div>
             </div>
           </div>
-
+        </details>
         </div>
         <aside>
           <div class="filtros-extras" v-if="tipoFiltro === 'cliente'">

@@ -94,37 +94,115 @@ form .button {
   box-sizing: border-box;
   padding: .6rem .6rem;
   border: 1px solid var(--verde-escuro);
+  background-color: var(--branco);
   border-radius: 5px;
   font-size: 1rem;
+}
+
+.info-entrega summary {
+  display: none;
+}
+
+.info-retratil {
+  box-sizing: border-box;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 1rem 1.5rem;
+
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.info-retratil[open] summary {
+  border-bottom: 2px solid var(--cinza-neutro);
+  margin-bottom: 1rem;
+}
+
+.info-retratil summary {
+  display: list-item;
+  margin: -1rem -1.5rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-weight: bold;
+  color: var(--preto);
+  padding: 1rem 1.5rem;
+}
+
+.info-retratil summary::marker {
+  content: '► ';
+}
+
+.info-retratil[open] summary::marker {
+  content: '▼ ';
+}
+
+.entrega-item {
+  box-sizing: border-box;
+  padding: 0 1rem 1rem 1rem;
+  border-radius: 5px;
+}
+
+.entrega-item p {
+  margin: 0.2rem 0;
+}
+
+.data-estimada {
+  margin: 1rem 0 0 2rem;
+  font-weight: bold;
+  color: var(--preto);
 }
 
 .historico-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   margin-left: 2rem;
+  margin-top: 1rem;
 }
 
 .historico {
-  padding: 0.5rem;
-  border-radius: 8px;
+  position: relative;
+  padding: 0 0.5rem 0.5rem 1.5rem;
+  border-radius: 0;
+  border-left: 2px solid var(--preto);
+}
+
+.historico::before {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  left: -5px;
+  z-index: 1;
+  top: 0;
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background-color: var(--preto);
+}
+
+.recente {
+  padding-top: 0;
+}
+
+.recente::before {
+  background-color: var(--preto);
+  border: 2px solid var(--branco);
+  width: .9rem;
+  height: .9rem;
+  outline: 1px solid var(--cinza-medio);
+  left: -8px;
+}
+
+.historico .historico-status {
+  color: var(--cinza-claro);
 }
 
 .historico .historico-data {
   color: var(--cinza-medio);
 }
 
-.historico .historico-status {
-  color: var(--preto);
-}
-
 .recente .historico-status {
   font-weight: 600;
   color: var(--preto);
-}
-
-.recente .historico-data {
-  color: var(--cinza-claro);
 }
 
 .status-a_caminho {
@@ -155,6 +233,7 @@ form .button {
   #filtros .input-busca, #filtros #tipo-filtro  {
     border-radius: 5px;
     border: 1px solid #ccc;
+    text-align: center;
   }
 
   #filtros button {
