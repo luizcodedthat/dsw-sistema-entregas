@@ -111,7 +111,10 @@
             <option value="documento">Documento</option>
             <option value="palete">Palete</option>
           </select>
-
+          
+          <!-- Trocar esse filtrar pelo peso com um único input
+           Por 2 inputs: [Label] De [ ... ] [Label] Até [ ... ]
+           Vai ficar melhor -->
           <label for="filtro-peso">Filtrar pelo peso (kg):</label>
           <input
             type="text"
@@ -283,20 +286,16 @@
           <tbody>
             <tr v-for="rota in rotas" :key="rota.id">
               <td>{{ rota.origem }}</td>
+              <!-- A exibição dos centros intermediários vai depender de como são devolvidos pela API,
+              se a API devolve um ID, um objeto centro completo (o que seria redundante) ou um objeto
+              centro simples -->
               <td>
-                <ul>
-                  <li
-                    v-for="(centro, index) in rota.centrosIntermediarios"
-                    :key="index"
-                  >
-                    {{ centro }}
-                  </li>
-                  <li v-if="rota.centrosIntermediarios.length === 0">-</li>
-                </ul>
+                  <span>{{ rota.centros_intermediarios.map(centro => centro.nome).join(", ") }}</span>
+                  <span v-if="rota.centros_intermediarios.length === 0">-</span>
               </td>
               <td>{{ rota.destino }}</td>
-              <td>{{ rota.distanciaKm }}</td>
-              <td>{{ rota.tempoEstimadoH }}</td>
+              <td>{{ rota.distancia_km }} km</td>
+              <td>{{ rota.tempo_estimado_h }} horas</td>
             </tr>
           </tbody>
         </table>
