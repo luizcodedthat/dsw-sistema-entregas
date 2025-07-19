@@ -135,7 +135,12 @@
             </tr>
           </thead>
           <tbody>
-            <!-- As linhas da tabela serão inseridas aqui -->
+            <tr v-for="encomenda in encomendas" :key="encomenda.id">
+              <td>{{ encomenda.tipo }}</td>
+              <td>{{ encomenda.descricao }}</td>
+              <td>{{ encomenda.endereco_entrega }}</td>
+              <td>{{ encomenda.peso }}</td>
+            </tr>
           </tbody>
         </table>
       </section>
