@@ -105,22 +105,34 @@
         <h1>Gerencie as encomendas cadastradas</h1>
         <div id="filtros">
           <label for="filtro-tipo">Filtrar por Tipo:</label>
-          <select name="filtro-tipo" id="filtro-tipo">
+          <select name="filtro-tipo" id="filtro-tipo" v-model="filtroTipo">
             <option value="nenhum">Selecione o tipo...</option>
             <option value="caixa">Caixa</option>
             <option value="documento">Documento</option>
             <option value="palete">Palete</option>
           </select>
-          
-          <!-- Trocar esse filtrar pelo peso com um único input
-           Por 2 inputs: [Label] De [ ... ] [Label] Até [ ... ]
-           Vai ficar melhor -->
-          <label for="filtro-peso">Filtrar pelo peso (kg):</label>
-          <input
-            type="text"
-            id="filtro-peso"
-            placeholder="Filtrar pelo Peso (kg)..."
-          />
+
+          <label for="filtro-peso-min">Filtrar pelo peso (kg):</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <label for="filtro-peso-min">De</label>
+            <input
+              type="number"
+              id="filtro-peso-min"
+              v-model.number="pesoMin"
+              placeholder="mín."
+              min="0"
+              step="0.01"
+            />
+            <label for="filtro-peso-max">Até</label>
+            <input
+              type="number"
+              id="filtro-peso-max"
+              v-model.number="pesoMax"
+              placeholder="máx."
+              min="0"
+              step="0.01"
+            />
+          </div>
 
           <button class="novo-cadastro">+ Nova encomenda</button>
         </div>
@@ -135,7 +147,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="encomenda in encomendas" :key="encomenda.id">
+            <tr v-for="encomenda in encomendasFiltradas" :key="encomenda.id">
               <td>{{ encomenda.tipo }}</td>
               <td>{{ encomenda.descricao }}</td>
               <td>{{ encomenda.endereco_entrega }}</td>
