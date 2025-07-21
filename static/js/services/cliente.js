@@ -20,3 +20,16 @@ export async function getClienteId(id) {
     return null;
   }
 }
+export async function postNovoCliente(cliente) {
+  try {
+        const resposta = await fetch(`${API_BASE_URL}clientes`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cliente)
+        });
+        return await resposta.json();
+      } catch (error) {
+        console.error("Erro ao cadastrar novo cliente:", error);
+        return null;
+      }
+    }
