@@ -23,7 +23,12 @@ createApp({
       entregas: [],
       centros: [],
 
-      mostrarModal: false,
+      modais: {
+        entrega: false,
+        cliente: false,
+        rota: false,
+      },
+
       novaEntrega: {
         clienteId: "",
         encomendaId: "",
@@ -31,7 +36,6 @@ createApp({
         status: "",
       },
 
-      mostrarModalRota: false,
       novaRota: {
         origem: "",
         destino: "",
@@ -40,7 +44,6 @@ createApp({
         tempoEstimadoH: "",
       },
 
-      mostrarModalCliente: false,
       novoCliente: {
         nome: "",
         cpfCnpj: "",
@@ -67,32 +70,21 @@ createApp({
       this.filtroCPFCNPJ = formatarCpfCnpj(this.filtroCPFCNPJ);
     },
 
-    // Melhor mudar essas funções de modal para funcionarem com todos os modais,
-    // pra não ter que criar uma função para cada modal
-    abrirModal() {
-      this.mostrarModal = true;
+    abrirModal(tipo) {
+      this.modais[tipo] = true;
     },
-
-    abrirModalCliente() {
-      this.mostrarModalCliente = true;
-    },
-
-    abrirModalRota() {
-      this.mostrarModalRota = true;
-    },
-
-    fecharModalEntrega() {
-      this.mostrarModal = false;
+    fecharModal(tipo) {
+      this.modais[tipo] = false;
+      if (tipo === "entrega") {
       this.novaEntrega = {
         clienteId: "",
         encomendaId: "",
         rotaId: "",
         status: "",
       };
-    },
+    }
 
-    fecharModalCliente() {
-      this.mostrarModalCliente = false;
+    if (tipo === "cliente") {
       this.novoCliente = {
         nome: "",
         cpfCnpj: "",
@@ -100,10 +92,9 @@ createApp({
         endereco: "",
         telefone: "",
       };
-    },
+    }
 
-    fecharModalRota() {
-      this.mostrarModalRota = false;
+    if (tipo === "rota") {
       this.novaRota = {
         origem: "",
         destino: "",
@@ -111,6 +102,7 @@ createApp({
         distanciaKm: "",
         tempoEstimadoH: "",
       };
+    }
     },
     async cadastrarEntrega() {
       try {
