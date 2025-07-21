@@ -24,3 +24,4 @@ export function formatarCpfCnpj (valor, tolerancia = 5) {
 
   return valor;
 }
+

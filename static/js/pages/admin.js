@@ -1,10 +1,9 @@
-import { formatarCpfCnpj } from '../utils/formatter.js';
-import { getTodosClientes } from '../services/cliente.js';
-import { getTodosCentros } from '../services/centro.js';
-import { getTodasEncomendas } from '../services/encomenda.js';
-import { getTodasRotas, postNovaRota } from '../services/rota.js';
-import { postNovaEntrega } from '../services/entrega.js';
-
+import { formatarCpfCnpj } from "../utils/formatter.js";
+import { getTodosClientes, postNovoCliente } from "../services/cliente.js";
+import { getTodosCentros } from "../services/centro.js";
+import { getTodasEncomendas } from "../services/encomenda.js";
+import { getTodasRotas, postNovaRota } from "../services/rota.js";
+import { postNovaEntrega } from "../services/entrega.js";
 
 const { createApp } = Vue;
 
@@ -26,38 +25,46 @@ createApp({
 
       mostrarModal: false,
       novaEntrega: {
-        clienteId: '',
-        encomendaId: '',
-        rotaId: '',
-        status: ''
+        clienteId: "",
+        encomendaId: "",
+        rotaId: "",
+        status: "",
       },
 
       mostrarModalRota: false,
       novaRota: {
-        origem: '',
-        destino: '',
+        origem: "",
+        destino: "",
         centrosIntermediarios: [],
-        distanciaKm: '',
-        tempoEstimadoH: ''
-      }
+        distanciaKm: "",
+        tempoEstimadoH: "",
+      },
+
+      mostrarModalCliente: false,
+      novoCliente: {
+        nome: "",
+        cpfCnpj: "",
+        email: "",
+        endereco: "",
+        telefone: "",
+      },
     };
   },
 
   methods: {
-
     async carregarCentros() {
       try {
         this.centros = await getTodosCentros();
       } catch (error) {
-        console.error('Erro ao carregar centros:', error.message);
-        alert('Não foi possível carregar os centros.');
+        console.error("Erro ao carregar centros:", error.message);
+        alert("Não foi possível carregar os centros.");
       }
     },
 
     formatarCpfCnpj,
 
-    formatar () {
-      this.filtroCPFCNPJ = formatarCpfCnpj(this.filtroCPFCNPJ)
+    formatar() {
+      this.filtroCPFCNPJ = formatarCpfCnpj(this.filtroCPFCNPJ);
     },
 
     // Melhor mudar essas funções de modal para funcionarem com todos os modais,
@@ -66,15 +73,44 @@ createApp({
       this.mostrarModal = true;
     },
 
-    fecharModal() {
+    abrirModalCliente() {
+      this.mostrarModalCliente = true;
+    },
+
+    abrirModalRota() {
+      this.mostrarModalRota = true;
+    },
+
+    fecharModalEntrega() {
       this.mostrarModal = false;
       this.novaEntrega = {
-        clienteId: '',
-        encomendaId: '',
-        rotaId: '',
-        status: ''
+        clienteId: "",
+        encomendaId: "",
+        rotaId: "",
+        status: "",
       };
+    },
 
+    fecharModalCliente() {
+      this.mostrarModalCliente = false;
+      this.novoCliente = {
+        nome: "",
+        cpfCnpj: "",
+        email: "",
+        endereco: "",
+        telefone: "",
+      };
+    },
+
+    fecharModalRota() {
+      this.mostrarModalRota = false;
+      this.novaRota = {
+        origem: "",
+        destino: "",
+        centrosIntermediarios: [],
+        distanciaKm: "",
+        tempoEstimadoH: "",
+      };
     },
     async cadastrarEntrega() {
       try {
@@ -87,14 +123,14 @@ createApp({
           historico: [
             {
               dataHora: new Date().toISOString(),
-              status: this.novaEntrega.status
-            }
-          ]
+              status: this.novaEntrega.status,
+            },
+          ],
         };
 
         await postNovaEntrega(nova);
         alert("Entrega cadastrada com sucesso!");
-        this.fecharModal();
+        this.fecharModalEntrega();
       } catch (e) {
         console.error("Erro ao cadastrar entrega:", e);
         alert("Erro ao cadastrar entrega.");
@@ -108,7 +144,7 @@ createApp({
           destino: this.novaRota.destino,
           centrosIntermediarios: this.novaRota.centrosIntermediarios || [],
           distanciaKm: parseFloat(this.novaRota.distanciaKm),
-          tempoEstimadoH: parseFloat(this.novaRota.tempoEstimadoH)
+          tempoEstimadoH: parseFloat(this.novaRota.tempoEstimadoH),
         };
 
         await postNovaRota(novaRota);
@@ -118,8 +154,26 @@ createApp({
         console.error("Erro ao cadastrar rota:", error);
         alert("Erro ao cadastrar rota.");
       }
-    }
+    },
 
+    async cadastrarCliente() {
+      try {
+        const novoCliente = {
+          nome: this.novoCliente.nome,
+          cpfCnpj: this.novoCliente.cpfCnpj,
+          email: this.novoCliente.email,
+          endereco: this.novoCliente.endereco,
+          telefone: this.novoCliente.telefone,
+        };
+
+        await postNovoCliente(novoCliente);
+        alert("Cliente cadastrado com sucesso!");
+        this.fecharModalCliente();
+      } catch (error) {
+        console.error("Erro ao cadastrar cliente:", error);
+        alert("Erro ao cadastrar cliente.");
+      }
+    },
   },
 
   computed: {
@@ -138,40 +192,64 @@ createApp({
 
       return tipoOk && pesoMinOk && pesoMaxOk;
     });
-  }
+  },
+   
+  clientesFiltrados() {
+    const nomeFiltro = this.filtroNome.toLowerCase().trim();
+    const cpfCnpjFiltro = this.filtroCPFCNPJ.replace(/\D/g, "");
+
+    return this.clientes.filter((cliente) => {
+      const nome = cliente.nome.toLowerCase();
+      const cpfCnpj = cliente.cpfCnpj.replace(/\D/g, "");
+      return nome.includes(nomeFiltro) && cpfCnpj.includes(cpfCnpjFiltro);
+    });
+  },
 },
 
   async mounted() {
     try {
-
       this.clientes = await getTodosClientes();
       this.encomendas = await getTodasEncomendas();
       this.rotas = await getTodasRotas();
     } catch (error) {
-      console.error('Erro ao carregar clientes:', error.message);
-      alert('Não foi possível carregar os clientes.');
+      console.error("Erro ao carregar clientes:", error.message);
+      alert("Não foi possível carregar os clientes.");
     }
 
     await this.carregarCentros();
-  }
+  },
+}).mount("#app");
 
-}).mount('#app');
-
-const listaBotoesHabilitar = ['botao-clientes', 'botao-encomendas', 'botao-rotas', 'botao-entregas', 'botao-centros'];
-const listaSecoes = ['secao-clientes', 'secao-encomendas', 'secao-rotas', 'secao-entregas', 'secao-centros'];
+const listaBotoesHabilitar = [
+  "botao-clientes",
+  "botao-encomendas",
+  "botao-rotas",
+  "botao-entregas",
+  "botao-centros",
+];
+const listaSecoes = [
+  "secao-clientes",
+  "secao-encomendas",
+  "secao-rotas",
+  "secao-entregas",
+  "secao-centros",
+];
 
 listaBotoesHabilitar.forEach((botao, indice) => {
   const elemento = document.getElementById(botao);
   const secao = document.getElementById(listaSecoes[indice]);
 
-  elemento.addEventListener('click', () => {
-    const secaoAtiva = document.getElementsByClassName('secao-ativa')[0];
-    const botaoSecaoAtiva = document.getElementsByClassName('botao-secao-ativa')[0];
+  elemento.addEventListener("click", () => {
+    const secaoAtiva = document.getElementsByClassName("secao-ativa")[0];
+    const botaoSecaoAtiva =
+      document.getElementsByClassName("botao-secao-ativa")[0];
 
-    secaoAtiva.classList.value = 'secao';
-    secao.classList.add('secao-ativa');
+    secaoAtiva.classList.value = "secao";
+    secao.classList.add("secao-ativa");
 
-    botaoSecaoAtiva.classList.value = 'botao-secao';
-    elemento.classList.add('botao-secao-ativa');
+    botaoSecaoAtiva.classList.value = "botao-secao";
+    elemento.classList.add("botao-secao-ativa");
   });
 });
+
+

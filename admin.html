@@ -76,8 +76,70 @@
             v-model="filtroCPFCNPJ"
             @input="formatar"
           />
+          
 
-          <button class="novo-cadastro">+ Novo cliente</button>
+          <button class="novo-cadastro" @click="abrirModalCliente">
+            + Novo Cliente
+          </button>
+          
+          <div class="modal" v-if="mostrarModalCliente">
+            <div class="modal-content">
+              <h2>Novo Cliente</h2>
+
+              <form @submit.prevent="cadastrarCliente">
+                <label>Nome Completo:</label>
+                <input
+                  type="text"
+                  v-model="novoCliente.nome"
+                  required
+                  placeholder="Digite o nome completo"
+                />
+
+                <label>CPF/CNPJ:</label>
+                <input
+                  type="text"
+                  v-model="novoCliente.cpfCnpj"
+                  required
+                  placeholder="Digite o CPF ou CNPJ"
+                  @input="formatarCpfCnpj(novoCliente.cpfCnpj)"
+                />
+
+                <label>E-mail:</label>
+                <input
+                  type="email"
+                  v-model="novoCliente.email"
+                  required
+                  placeholder="Digite o e-mail"
+                />
+
+                <label>Endereço:</label>
+                <input
+                  type="text"
+                  v-model="novoCliente.endereco"
+                  required
+                  placeholder="Digite o endereço completo"
+                />
+                
+                <label>Telefone:</label>
+                <input
+                  type="text"
+                  v-model="novoCliente.telefone"
+                  required
+                  placeholder="Digite o telefone"
+                />
+                <div class="botoes">
+                  <button class="button" type="submit">Salvar</button>
+                  <button
+                    class="remover-btn"
+                    type="button"
+                    @click="fecharModalCliente"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          
         </div>
 
         <table id="tabela-clientes" class="tabela-listagem">
@@ -91,7 +153,7 @@
           </thead>
           <tbody>
             <!-- aqui o Vue preenche automaticamente -->
-            <tr v-for="cliente in clientes" :key="cliente.id">
+            <tr v-for="cliente in clientesFiltrados" :key="cliente.id">
               <td>{{ cliente.nome }}</td>
               <td>{{ formatarCpfCnpj(cliente.cpfCnpj) }}</td>
               <td>{{ cliente.email }}</td>
@@ -280,7 +342,7 @@
                   <button
                     class="remover-btn"
                     type="button"
-                    @click="fecharModal"
+                    @click="fecharModalEntrega"
                   >
                     Cancelar
                   </button>
