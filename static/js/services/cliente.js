@@ -10,26 +10,28 @@ export async function getTodosClientes() {
     return [];
   }
 }
+
 export async function getClienteId(id) {
   try {
-    const cliente = await getTodosClientes();
-    const TodosClientes = cliente.find(cliente => cliente.id === id);
-    return TodosClientes || null;
+    const todosClientes = await getTodosClientes();
+    const cliente = todosClientes.find(cliente => cliente.id === id);
+    return cliente || null;
   } catch (error) {
     console.error("Erro ao buscar entrega por ID:", error);
     return null;
   }
 }
+
 export async function postNovoCliente(cliente) {
   try {
-        const resposta = await fetch(`${API_BASE_URL}clientes`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(cliente)
-        });
-        return await resposta.json();
-      } catch (error) {
-        console.error("Erro ao cadastrar novo cliente:", error);
-        return null;
-      }
-    }
+    const resposta = await fetch(`${API_BASE_URL}clientes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cliente)
+    });
+    return await resposta.json();
+  } catch (error) {
+    console.error("Erro ao cadastrar novo cliente:", error);
+    return null;
+  }
+}
