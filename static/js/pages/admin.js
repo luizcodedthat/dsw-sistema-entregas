@@ -3,7 +3,7 @@ import { getTodosClientes, postNovoCliente } from "../services/cliente.js";
 import { getTodosCentros } from "../services/centro.js";
 import { getTodasEncomendas } from "../services/encomenda.js";
 import { getTodasRotas, postNovaRota } from "../services/rota.js";
-import { postNovaEntrega } from "../services/entrega.js";
+import { getTodasEntregas, postNovaEntrega } from "../services/entrega.js";
 
 const { createApp } = Vue;
 
@@ -12,7 +12,9 @@ createApp({
     return {
       filtroNome: '',
       filtroCPFCNPJ: '',
-      
+
+      entregaSelecionada: null,
+
       filtroTipo: 'nenhum',
       pesoMin: null,
       pesoMax: null,
@@ -24,6 +26,12 @@ createApp({
       centros: [],
 
       modais: {
+        entrega: false,
+        cliente: false,
+        rota: false,
+      },
+
+      infomodais: {
         entrega: false,
         cliente: false,
         rota: false,
@@ -73,37 +81,60 @@ createApp({
     abrirModal(tipo) {
       this.modais[tipo] = true;
     },
+
+    abrirModalInfo(tipo, entidade) {
+      this.infomodais[tipo] = true;
+
+      this.entregaSelecionada = entidade;
+    },
+
     fecharModal(tipo) {
       this.modais[tipo] = false;
       if (tipo === "entrega") {
-      this.novaEntrega = {
-        clienteId: "",
-        encomendaId: "",
-        rotaId: "",
-        status: "",
-      };
-    }
+        this.novaEntrega = {
+          clienteId: "",
+          encomendaId: "",
+          rotaId: "",
+          status: "",
+        };
+      }
 
-    if (tipo === "cliente") {
-      this.novoCliente = {
-        nome: "",
-        cpfCnpj: "",
-        email: "",
-        endereco: "",
-        telefone: "",
-      };
-    }
+      if (tipo === "cliente") {
+        this.novoCliente = {
+          nome: "",
+          cpfCnpj: "",
+          email: "",
+          endereco: "",
+          telefone: "",
+        };
+      }
 
-    if (tipo === "rota") {
-      this.novaRota = {
-        origem: "",
-        destino: "",
-        centrosIntermediarios: [],
-        distanciaKm: "",
-        tempoEstimadoH: "",
-      };
-    }
+      if (tipo === "rota") {
+        this.novaRota = {
+          origem: "",
+          destino: "",
+          centrosIntermediarios: [],
+          distanciaKm: "",
+          tempoEstimadoH: "",
+        };
+      }
     },
+
+    fecharModalInfo(tipo) {
+      this.infomodais[tipo] = false;
+
+    },
+
+    // Código que gera id incremental para entrega, encomenda, rota, etc
+    // Modelo: "rotaId": "rota-01",
+
+    gerarId(tipo) {
+      const prefixo = tipo.toLowerCase();
+      const ultimoId = this[tipo].length > 0 ? this[tipo][this[tipo].length - 1].id : null;
+      const numero = ultimoId ? parseInt(ultimoId.split('-')[1]) + 1 : 1;
+      return `${prefixo}-${numero.toString().padStart(2, '0')}`;
+    },
+
     async cadastrarEntrega() {
       try {
         const nova = {
@@ -166,49 +197,109 @@ createApp({
         alert("Erro ao cadastrar cliente.");
       }
     },
+
+    getCliente(id) {
+      const cliente = this.clientes.find(cliente => cliente.id === id)
+      if (cliente) {
+        return cliente;
+      }
+    },
+
+    getEncomenda(id) {
+      const encomenda = this.encomendas.find(encomenda => encomenda.id === id);
+      if (encomenda) {
+        return encomenda;
+      }
+    },
+
+    getRota(id) {
+      const rota = this.rotas.find(rota => rota.id === id);
+      if (rota) {
+        return rota;
+      }
+    },
+
+    formatarData(data) {
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return new Date(data).toLocaleDateString('pt-BR', options);
+    },
+
+    getDataFormatada(data) {
+      const date = new Date(data);
+      return date.toLocaleDateString('pt-BR', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    },
+
+    getEmojiStatus(status) {
+      switch (status) {
+        case 'em_preparo':
+          return '⏳';
+        case 'a_caminho':
+          return '🚚';
+        case 'entregue':
+          return '✅';
+        default:
+          return '❓';
+      }
+    },
+
+    getStatusText(status) {
+      const statusMap = {
+        'em_preparo': 'Em preparo',
+        'a_caminho': 'A caminho',
+        'entregue': 'Entregue'
+      };
+      return statusMap[status] || status;
+    },
+
   },
 
   computed: {
-  encomendasFiltradas() {
-    const tipoFiltro = this.filtroTipo?.trim().toLowerCase();
-    const pesoMin = this.pesoMin === '' ? null : this.pesoMin;
-    const pesoMax = this.pesoMax === '' ? null : this.pesoMax;
+    encomendasFiltradas() {
+      const tipoFiltro = this.filtroTipo?.trim().toLowerCase();
+      const pesoMin = this.pesoMin === '' ? null : this.pesoMin;
+      const pesoMax = this.pesoMax === '' ? null : this.pesoMax;
 
-    return this.encomendas.filter((encomenda) => {
-      const tipoOk =
-        tipoFiltro === 'nenhum' || tipoFiltro === '' || encomenda.tipo === tipoFiltro;
+      return this.encomendas.filter((encomenda) => {
+        const tipoOk =
+          tipoFiltro === 'nenhum' || tipoFiltro === '' || encomenda.tipo === tipoFiltro;
 
-      const peso = parseFloat(encomenda.peso);
-      const pesoMinOk = pesoMin === null || peso >= pesoMin;
-      const pesoMaxOk = pesoMax === null || peso <= pesoMax;
+        const peso = parseFloat(encomenda.peso);
+        const pesoMinOk = pesoMin === null || peso >= pesoMin;
+        const pesoMaxOk = pesoMax === null || peso <= pesoMax;
 
-      return tipoOk && pesoMinOk && pesoMaxOk;
-    });
+        return tipoOk && pesoMinOk && pesoMaxOk;
+      });
+    },
+
+    clientesFiltrados() {
+      const nomeFiltro = this.filtroNome.toLowerCase().trim();
+      const cpfCnpjFiltro = this.filtroCPFCNPJ.replace(/\D/g, "");
+
+      return this.clientes.filter((cliente) => {
+        const nome = cliente.nome.toLowerCase();
+        const cpfCnpj = cliente.cpfCnpj.replace(/\D/g, "");
+        return nome.includes(nomeFiltro) && cpfCnpj.includes(cpfCnpjFiltro);
+      });
+    },
   },
-   
-  clientesFiltrados() {
-    const nomeFiltro = this.filtroNome.toLowerCase().trim();
-    const cpfCnpjFiltro = this.filtroCPFCNPJ.replace(/\D/g, "");
-
-    return this.clientes.filter((cliente) => {
-      const nome = cliente.nome.toLowerCase();
-      const cpfCnpj = cliente.cpfCnpj.replace(/\D/g, "");
-      return nome.includes(nomeFiltro) && cpfCnpj.includes(cpfCnpjFiltro);
-    });
-  },
-},
 
   async mounted() {
     try {
       this.clientes = await getTodosClientes();
       this.encomendas = await getTodasEncomendas();
       this.rotas = await getTodasRotas();
+      this.entregas = await getTodasEntregas();
+      this.centros = await getTodosCentros();
     } catch (error) {
       console.error("Erro ao carregar clientes:", error.message);
       alert("Não foi possível carregar os clientes.");
     }
-
-    await this.carregarCentros();
   },
 }).mount("#app");
 
