@@ -13,3 +13,17 @@ export async function getTodasEncomendas() {
     return [];
   }
 }
+
+export async function postNovaEncomenda(encomenda) {
+  try {
+        const resposta = await fetch(`${API_BASE_URL}encomendas`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(encomenda)
+        });
+        return await resposta.json();
+      } catch (error) {
+        console.error("Erro ao cadastrar nova encomenda:", error);
+        return null;
+      }
+    }

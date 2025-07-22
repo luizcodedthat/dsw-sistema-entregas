@@ -1,13 +1,13 @@
 :root {
-    --verde-escuro: #006437; /* botões principais, cabeçalhos */
-    --verde-escuro-hover: #004e2c; /* Hover de botões principais, cabeçalhos */
-    --verde-claro: #8CC63F; /* Fundos, hover de botões, destaque sutil */
-    --branco: #FFFFFF; /* Fundo principal, textos sobre cores escuras */
-    --cinza-neutro: #F2F2F2; /* Background secundário, containers, cards */
-    --cinza-claro: #c0c0c0; /* Alguns textos */
-    --cinza-medio: #A6A6A6; /* Bordas, ícones, botões desabilitados */
-    --vermelho: #C4161C; /* Cor de alerta, notificações, botões de perigo (excluir, cancelar) */
-    --preto: #222222; /* Texto principal, títulos, ícones */
+    --verde-escuro: #006437;
+    --verde-escuro-hover: #004e2c;
+    --verde-claro: #8CC63F;
+    --branco: #FFFFFF;
+    --cinza-neutro: #F2F2F2;
+    --cinza-claro: #c0c0c0;
+    --cinza-medio: #A6A6A6;
+    --vermelho: #C4161C;
+    --preto: #222222;
 
 }
 

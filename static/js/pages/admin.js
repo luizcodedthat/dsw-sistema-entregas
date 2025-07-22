@@ -1,7 +1,7 @@
 import { formatarCpfCnpj } from "../utils/formatter.js";
 import { getTodosClientes, postNovoCliente } from "../services/cliente.js";
 import { getTodosCentros } from "../services/centro.js";
-import { getTodasEncomendas } from "../services/encomenda.js";
+import { getTodasEncomendas, postNovaEncomenda } from "../services/encomenda.js";
 import { getTodasRotas, postNovaRota } from "../services/rota.js";
 import { getTodasEntregas, postNovaEntrega } from "../services/entrega.js";
 
@@ -18,6 +18,9 @@ createApp({
       filtroTipo: 'nenhum',
       pesoMin: null,
       pesoMax: null,
+
+      filtroOrigem: '',
+      filtroDestino: '',
 
       clientes: [],
       encomendas: [],
@@ -43,6 +46,13 @@ createApp({
         rotaId: "",
         status: "",
       },
+
+      novaEncomenda: {
+      tipo: "",
+      descricao: "",
+      endereco_entrega: "",
+      peso: null,
+    },
 
       novaRota: {
         origem: "",
@@ -123,6 +133,25 @@ createApp({
     fecharModalInfo(tipo) {
       this.infomodais[tipo] = false;
 
+    if (tipo === "rota") {
+      this.novaRota = {
+        origem: "",
+        destino: "",
+        centrosIntermediarios: [],
+        distanciaKm: "",
+        tempoEstimadoH: "",
+      };
+    }
+
+    if (tipo === "encomenda") {
+      this.novaEncomenda = {
+        tipo: "",
+        descricao: "",
+        endereco_entrega: "",
+        peso: "",
+      };
+    }
+    
     },
 
     // Código que gera id incremental para entrega, encomenda, rota, etc
@@ -153,7 +182,7 @@ createApp({
 
         await postNovaEntrega(nova);
         alert("Entrega cadastrada com sucesso!");
-        this.fecharModalEntrega();
+        this.fecharModal("entrega");
       } catch (e) {
         console.error("Erro ao cadastrar entrega:", e);
         alert("Erro ao cadastrar entrega.");
@@ -172,10 +201,28 @@ createApp({
 
         await postNovaRota(novaRota);
         alert("Rota cadastrada com sucesso!");
-        this.fecharModalRota(); // ainda vou implementar
+        this.fecharModal("rota");
       } catch (error) {
         console.error("Erro ao cadastrar rota:", error);
         alert("Erro ao cadastrar rota.");
+      }
+    },
+
+    async cadastrarEncomenda() {
+      try {
+        const novaEncomenda = {
+          tipo: this.novaEncomenda.tipo,
+          descricao: this.novaEncomenda.descricao,
+          endereco_entrega: this.novaEncomenda.endereco_entrega,
+          peso: parseFloat(this.novaEncomenda.peso),
+        };
+
+        await postNovaEncomenda(novaEncomenda);
+        alert("Encomenda cadastrado com sucesso!");
+        this.fecharModal("encomenda");
+      } catch (error) {
+        console.error("Erro ao cadastrar encomenda:", error);
+        alert("Erro ao cadastrar encomenda.");
       }
     },
 
@@ -191,7 +238,7 @@ createApp({
 
         await postNovoCliente(novoCliente);
         alert("Cliente cadastrado com sucesso!");
-        this.fecharModalCliente();
+        this.fecharModal("cliente");
       } catch (error) {
         console.error("Erro ao cadastrar cliente:", error);
         alert("Erro ao cadastrar cliente.");
@@ -288,6 +335,19 @@ createApp({
       });
     },
   },
+
+  rotasFiltradas() {
+    const origemFiltro = this.filtroOrigem.toLowerCase().trim();
+    const destinoFiltro = this.filtroDestino.toLowerCase().trim();
+    return this.rotas.filter((rota) => {
+      const origem = rota.origem.toLowerCase();
+      const destino = rota.destino.toLowerCase();
+      return (
+        origem.includes(origemFiltro) && destino.includes(destinoFiltro)
+      );
+    });
+  }
+},
 
   async mounted() {
     try {
