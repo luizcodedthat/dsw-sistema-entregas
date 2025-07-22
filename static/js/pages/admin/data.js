@@ -3,6 +3,9 @@ export default function () {
         filtroNome: '',
         filtroCPFCNPJ: '',
 
+        filtroOrigem: '',
+        filtroDestino: '',
+
         entregaSelecionada: null,
 
         filtroTipo: 'nenhum',
