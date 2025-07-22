@@ -1,4 +1,3 @@
-/* Barra de navegação */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -68,7 +67,6 @@
     padding-right: 0;
 }
 
-/* Botão primário */
 
 .button {
     text-decoration: none;
@@ -89,7 +87,6 @@
     color: var(--branco);
 }
 
-/* Links comuns */
 
 .link {
     text-decoration: none;
@@ -101,7 +98,6 @@
     text-decoration: underline;
 }
 
-/* Filtros (select e input) */
 #filtros {
     display: flex;
     flex-direction: row;
@@ -144,13 +140,9 @@
     padding: 0.8rem;
 }
 
-/* Adiciona um estilo de hover no select */
 #filtros select:hover {
     border-color: var(--verde-escuro);
 }
-
-
-/* Tabela de listagem */
 
 table {
     width: 100%;
@@ -171,7 +163,6 @@ th {
     font-weight: bold;
 }
 
-/* Botão de remover da listagem */
 
 button.remover-btn {
     text-decoration: none;

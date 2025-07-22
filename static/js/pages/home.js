@@ -10,7 +10,6 @@ createApp({
     },
     methods: {
         redirecionarBuscaPorMetodo () {
-            // Remove pontos e hifens do texto do código
             const codigoTratado = this.codigo.replace(/[.\-\/]/g, "");
 
             if (codigoTratado.length == 11 || codigoTratado.length == 14) {
@@ -23,7 +22,6 @@ createApp({
         formatarCpfCnpj,
 
         formatar() {
-            // Verifica se o texto começa com qualquer letra
             if (/^[a-zA-Z]/.test(this.codigo[0])) {
                 return;
             }
