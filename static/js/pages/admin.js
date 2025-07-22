@@ -18,6 +18,9 @@ createApp({
       pesoMin: null,
       pesoMax: null,
 
+      filtroOrigem: '',
+      filtroDestino: '',
+
       clientes: [],
       encomendas: [],
       rotas: [],
@@ -232,6 +235,18 @@ createApp({
       return nome.includes(nomeFiltro) && cpfCnpj.includes(cpfCnpjFiltro);
     });
   },
+
+  rotasFiltradas() {
+    const origemFiltro = this.filtroOrigem.toLowerCase().trim();
+    const destinoFiltro = this.filtroDestino.toLowerCase().trim();
+    return this.rotas.filter((rota) => {
+      const origem = rota.origem.toLowerCase();
+      const destino = rota.destino.toLowerCase();
+      return (
+        origem.includes(origemFiltro) && destino.includes(destinoFiltro)
+      );
+    });
+  }
 },
 
   async mounted() {

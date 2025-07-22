@@ -52,7 +52,8 @@ createApp({
         console.log(cliente)
         if (cliente) {
           let entregasCliente = this.entregas.filter(entrega => entrega.clienteId === cliente.id);
-
+          
+          /// Filtra por status se selecionado
           if (this.statusSelecionado) {
             entregasCliente = entregasCliente.filter(entrega => entrega.status === this.statusSelecionado);
           }

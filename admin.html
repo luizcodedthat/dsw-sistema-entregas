@@ -221,18 +221,14 @@
       <h1>Gerencie as rotas de entrega cadastradas</h1>
       <div id="filtros">
         <label for="filtro-origem">Filtrar por Origem:</label>
-        <input list="lista-origem" v-model="filtroOrigem" id="filtro-origem" name="filtro-origem"
-          placeholder="Digite ou selecione um centro" />
-        <datalist id="lista-origem">
-          <option v-for="centro in centros" :key="'origem-' + centro"> {{ centro.nome }} </option>
-        </datalist>
+        <input type="text" v-model="filtroOrigem" id="filtro-origem" name="filtro-origem"
+          placeholder="Digite uma origem" />
+        
 
         <label for="filtro-destino">Filtrar por Destino:</label>
-        <input list="lista-destino" v-model="filtroDestino" id="filtro-destino" name="filtro-destino"
-          placeholder="Digite ou selecione um centro" />
-        <datalist id="lista-destino">
-          <option v-for="centro in centros" :key="'destino-' + centro">{{ centro.nome }}</option>
-        </datalist>
+        <input type="text" v-model="filtroDestino" id="filtro-destino" name="filtro-destino"
+          placeholder="Digite um destino" />
+        
 
         <button class="novo-cadastro">+ Nova rota</button>
       </div>
@@ -248,7 +244,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="rota in rotas" :key="rota.id">
+          <tr v-for="rota in rotasFiltradas" :key="rota.id">
             <td>{{ rota.origem }}</td>
             <td>
               <span>{{ rota.centros_intermediarios.map(centro => centro.nome).join(", ") }}</span>
@@ -353,7 +349,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="rota in rotas" :key="rota.id">
+          <tr v-for="rota in rotasFiltradas" :key="rota.id">
             <td>{{ rota.origem }}</td>
             <!-- A exibição dos centros intermediários vai depender de como são devolvidos pela API,
               se a API devolve um ID, um objeto centro completo (o que seria redundante) ou um objeto
