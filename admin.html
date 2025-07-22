@@ -247,8 +247,8 @@
           <tr v-for="rota in rotasFiltradas" :key="rota.id">
             <td>{{ rota.origem }}</td>
             <td>
-              <span>{{ rota.centros_intermediarios.map(centro => centro.nome).join(", ") }}</span>
-              <span v-if="rota.centros_intermediarios.length === 0">-</span>
+              <span>{{ (rota.centros_intermediarios || []).map(centro => centro.nome).join(", ") }}</span>
+              <span v-if="(rota.centros_intermediarios || []).length === 0">-</span>
             </td>
             <td>{{ rota.destino }}</td>
             <td>{{ rota.distancia_km }} km</td>
@@ -353,11 +353,11 @@
         <tbody>
           <tr v-for="entrega in entregas" :key="entrega.id">
             <td>{{ entrega.codigo_rastreamento }}</td>
-            <td>{{ formatarCpfCnpj(getCliente(entrega.clienteId).cpfCnpj) }}</td>
+            <td>{{ formatarCpfCnpj(getCliente(entrega.clienteId)?.cpfCnpj) }}</td>
             <td>{{ getEncomenda(entrega.encomendaId).descricao }}</td>
             <td>{{ getRota(entrega.rotaId).origem }} → {{ getRota(entrega.rotaId).destino }}</td>
             <td>{{ formatarData(entrega.data_estimada) }}</td>
-            <td>{{ entrega.status.replace('_', ' ') }}</td>
+            <td>{{ getStatusText(entrega.status) }}</td>
             <td><button class="botao-detalhar" @click="abrirModalInfo('entrega', entrega)" alt="Detalhes">🔍 Detalhes</button>
             </td>
           </tr>
@@ -419,7 +419,7 @@
     </section>
   </main>
 
-  <script type="module" src="static/js/pages/admin.js"></script>
+  <script type="module" src="static/js/pages/admin/app.js"></script>
 </body>
 
 </html>

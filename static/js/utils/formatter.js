@@ -5,8 +5,6 @@ export function formatarCpfCnpj (valor, tolerancia = 5) {
     return valor;
   }
 
-
-
   if (valorLimpo.length <= 11) {
     // Máscara CPF: 000.000.000-00
     valor = valorLimpo
