@@ -4,6 +4,7 @@ import { getTodosCentros } from "../services/centro.js";
 import { getTodasEncomendas } from "../services/encomenda.js";
 import { getTodasRotas, postNovaRota } from "../services/rota.js";
 import { postNovaEntrega } from "../services/entrega.js";
+import { postNovaEncomenda } from "../services/encomenda.js";
 
 const { createApp } = Vue;
 
@@ -23,7 +24,12 @@ createApp({
       entregas: [],
       centros: [],
 
-      mostrarModal: false,
+      modais: {
+        entrega: false,
+        cliente: false,
+        rota: false,
+      },
+
       novaEntrega: {
         clienteId: "",
         encomendaId: "",
@@ -31,7 +37,13 @@ createApp({
         status: "",
       },
 
-      mostrarModalRota: false,
+      novaEncomenda: {
+      tipo: "",
+      descricao: "",
+      endereco_entrega: "",
+      peso: null,
+    },
+
       novaRota: {
         origem: "",
         destino: "",
@@ -40,7 +52,6 @@ createApp({
         tempoEstimadoH: "",
       },
 
-      mostrarModalCliente: false,
       novoCliente: {
         nome: "",
         cpfCnpj: "",
@@ -67,32 +78,21 @@ createApp({
       this.filtroCPFCNPJ = formatarCpfCnpj(this.filtroCPFCNPJ);
     },
 
-    // Melhor mudar essas funções de modal para funcionarem com todos os modais,
-    // pra não ter que criar uma função para cada modal
-    abrirModal() {
-      this.mostrarModal = true;
+    abrirModal(tipo) {
+      this.modais[tipo] = true;
     },
-
-    abrirModalCliente() {
-      this.mostrarModalCliente = true;
-    },
-
-    abrirModalRota() {
-      this.mostrarModalRota = true;
-    },
-
-    fecharModalEntrega() {
-      this.mostrarModal = false;
+    fecharModal(tipo) {
+      this.modais[tipo] = false;
+      if (tipo === "entrega") {
       this.novaEntrega = {
         clienteId: "",
         encomendaId: "",
         rotaId: "",
         status: "",
       };
-    },
+    }
 
-    fecharModalCliente() {
-      this.mostrarModalCliente = false;
+    if (tipo === "cliente") {
       this.novoCliente = {
         nome: "",
         cpfCnpj: "",
@@ -100,10 +100,9 @@ createApp({
         endereco: "",
         telefone: "",
       };
-    },
+    }
 
-    fecharModalRota() {
-      this.mostrarModalRota = false;
+    if (tipo === "rota") {
       this.novaRota = {
         origem: "",
         destino: "",
@@ -111,6 +110,17 @@ createApp({
         distanciaKm: "",
         tempoEstimadoH: "",
       };
+    }
+
+    if (tipo === "encomenda") {
+      this.novaEncomenda = {
+        tipo: "",
+        descricao: "",
+        endereco_entrega: "",
+        peso: "",
+      };
+    }
+    
     },
     async cadastrarEntrega() {
       try {
@@ -130,7 +140,7 @@ createApp({
 
         await postNovaEntrega(nova);
         alert("Entrega cadastrada com sucesso!");
-        this.fecharModalEntrega();
+        this.fecharModal("entrega");
       } catch (e) {
         console.error("Erro ao cadastrar entrega:", e);
         alert("Erro ao cadastrar entrega.");
@@ -149,10 +159,28 @@ createApp({
 
         await postNovaRota(novaRota);
         alert("Rota cadastrada com sucesso!");
-        this.fecharModalRota(); // ainda vou implementar
+        this.fecharModal("rota");
       } catch (error) {
         console.error("Erro ao cadastrar rota:", error);
         alert("Erro ao cadastrar rota.");
+      }
+    },
+
+    async cadastrarEncomenda() {
+      try {
+        const novaEncomenda = {
+          tipo: this.novaEncomenda.tipo,
+          descricao: this.novaEncomenda.descricao,
+          endereco_entrega: this.novaEncomenda.endereco_entrega,
+          peso: parseFloat(this.novaEncomenda.peso),
+        };
+
+        await postNovaEncomenda(novaEncomenda);
+        alert("Encomenda cadastrado com sucesso!");
+        this.fecharModal("encomenda");
+      } catch (error) {
+        console.error("Erro ao cadastrar encomenda:", error);
+        alert("Erro ao cadastrar encomenda.");
       }
     },
 
@@ -168,7 +196,7 @@ createApp({
 
         await postNovoCliente(novoCliente);
         alert("Cliente cadastrado com sucesso!");
-        this.fecharModalCliente();
+        this.fecharModal("cliente");
       } catch (error) {
         console.error("Erro ao cadastrar cliente:", error);
         alert("Erro ao cadastrar cliente.");

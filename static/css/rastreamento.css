@@ -7,6 +7,10 @@ main {
     padding: 2rem 5rem;
 }
 
+p {
+  color: var(--preto);
+}
+
 .navbar {
     border-bottom: 1px solid var(--cinza-neutro);
 }
@@ -95,6 +99,7 @@ form .button {
   padding: .6rem .6rem;
   border: 1px solid var(--verde-escuro);
   background-color: var(--branco);
+  color: var(--preto);
   border-radius: 5px;
   font-size: 1rem;
 }
@@ -149,7 +154,6 @@ form .button {
 .data-estimada {
   margin: 1rem 0 0 2rem;
   font-weight: bold;
-  color: var(--preto);
 }
 
 .historico-container {
