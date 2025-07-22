@@ -113,7 +113,7 @@
             </tr>
           </thead>
           <tbody>
-            <!-- aqui o Vue preenche automaticamente -->
+    
             <tr v-for="cliente in clientesFiltrados" :key="cliente.id">
               <td>{{ cliente.nome }}</td>
               <td>{{ formatarCpfCnpj(cliente.cpfCnpj) }}</td>
@@ -159,7 +159,6 @@
 
         <button class="novo-cadastro" @click="abrirModal('encomenda')">+ Nova encomenda</button>
 
-        <!-- Modal para nova encomenda -->
         <div v-if="modais.encomenda" class="modal">
           <div class="modal-content">
             <h2>Nova Encomenda</h2>
@@ -268,19 +267,16 @@
       <div id="filtros">
         <label for="filtro-cliente">Filtrar por Cliente:</label>
         <select name="filtro-cliente" id="filtro-cliente">
-          <!-- Adicionar os centros existentes com Vue aqui -->
           <option value="centro">Cliente</option>
         </select>
 
         <label for="filtro-rota">Filtrar por Rota:</label>
         <select name="filtro-rota" id="filtro-rota">
-          <!-- Adicionar os centros existentes com Vue aqui -->
           <option value="rota">Rota</option>
         </select>
 
         <label for="filtro-status">Filtrar por Status:</label>
         <select name="filtro-status" id="filtro-status">
-          <!-- Adicionar os centros existentes com Vue aqui -->
           <option value="nenhum">Selecione...</option>
           <option value="em_preparo">Em preparo</option>
           <option value="a_caminho">À caminho</option>
@@ -395,7 +391,6 @@
     </section>
   </main>
 
-  <!-- Vue App: Botão + Modal -->
 
   <script type="module" src="static/js/pages/admin.js"></script>
 </body>
