@@ -294,32 +294,64 @@
         </div>
       </div>
 
-      <table id="tabela-entregas" class="tabela-listagem">
+      <table>
         <thead>
           <tr>
-            <th>Ponto de Origem</th>
-            <th>Pontos Intermediários</th>
-            <th>Ponto de Destino</th>
-            <th>Distância (km)</th>
-            <th>Tempo estimado (h)</th>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Encomenda</th>
+            <th>Rota</th>
+            <th>Data Estimada</th>
+            <th>Status</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="rota in rotas" :key="rota.id">
-            <td>{{ rota.origem }}</td>
-            <!-- A exibição dos centros intermediários vai depender de como são devolvidos pela API,
-              se a API devolve um ID, um objeto centro completo (o que seria redundante) ou um objeto
-              centro simples -->
-            <td>
-              <span>{{ rota.centros_intermediarios.map(centro => centro.nome).join(", ") }}</span>
-              <span v-if="rota.centros_intermediarios.length === 0">-</span>
+          <tr v-for="entrega in entregas" :key="entrega.id">
+            <td>{{ entrega.codigo_rastreamento }}</td>
+            <td>{{ formatarCpfCnpj(getCliente(entrega.clienteId).cpfCnpj) }}</td>
+            <td>{{ getEncomenda(entrega.encomendaId).descricao }}</td>
+            <td>{{ getRota(entrega.rotaId).origem }} >>> {{ getRota(entrega.rotaId).destino }}</td>
+            <td>{{ formatarData(entrega.data_estimada) }}</td>
+            <td>{{ entrega.status.replace('_', ' ') }}</td>
+            <td><button class="botao-detalhar" @click="abrirModalInfo('entrega', entrega)" alt="Detalhes">🔍 Detalhes</button>
             </td>
-            <td>{{ rota.destino }}</td>
-            <td>{{ rota.distancia_km }} km</td>
-            <td>{{ rota.tempo_estimado_h }} horas</td>
           </tr>
         </tbody>
       </table>
+
+      <!-- Modal -->
+      <div class="modal-info" v-if="infomodais.entrega">
+        <div class="modal-info-content">
+
+          <!-- Botão fechar -->
+          <button class="fechar-modal" @click="fecharModalInfo('entrega')">𐌢</button>
+
+          <h2>📦 Detalhes da Entrega</h2>
+
+          <p><strong>Código de Rastreamento:</strong> {{ entregaSelecionada.codigo_rastreamento }}</p>
+          <p><strong>Cliente:</strong> {{ getCliente(entregaSelecionada.clienteId).nome }}</p>
+          <p><strong>CPF/CNPJ:</strong> {{ formatarCpfCnpj(getCliente(entregaSelecionada.clienteId).cpfCnpj) }}</p>
+          <p><strong>Encomenda:</strong> {{ getEncomenda(entregaSelecionada.encomendaId).tipo }} | {{getEncomenda(entregaSelecionada.encomendaId).descricao}}</p>
+          <p><strong>Rota:</strong> {{ getRota(entregaSelecionada.rotaId).origem }} >>> {{ getRota(entregaSelecionada.rotaId).destino }}</p>
+          <p><strong>Data Estimada:</strong> {{ formatarData(entregaSelecionada.data_estimada) }}</p>
+          <p><strong>Status Atual:</strong> {{ getEmojiStatus(entregaSelecionada.status) }} {{
+            getStatusText(entregaSelecionada.status) }}</p>
+
+          <h3 style="margin-top: 16px;">Histórico</h3>
+          <div class="historico-container">
+              <div :class="['historico', { recente: index == 0} ]" v-for="(historico, index) in entregaSelecionada.historico">
+                <p class="historico-status">
+                  {{ getStatusText(historico.status) }}
+                </p>
+                <p class="historico-data">
+                  {{ getDataFormatada(historico.data) }}
+                </p>
+              </div>
+            </div>
+        </div>
+      </div>
+
     </section>
 
     <section id="secao-centros" class="secao">
@@ -342,8 +374,6 @@
       </table>
     </section>
   </main>
-
-  <!-- Vue App: Botão + Modal -->
 
   <script type="module" src="static/js/pages/admin.js"></script>
 </body>
