@@ -105,6 +105,27 @@
           "local": "Em trânsito para Caruaru"
         }
       ]
+    },
+    {
+      "id": "ent-003",
+      "codigo_rastreamento": "BR123456789PU",
+      "clienteId": 2,
+      "encomendaId": 101,
+      "rotaId": "rota-02",
+      "data_estimada": "2025-07-20",
+      "status": "a_caminho",
+      "historico": [
+        {
+          "data": "2025-07-11T09:00:00Z",
+          "status": "em_preparo",
+          "local": "CD Recife"
+        },
+        {
+          "data": "2025-07-11T14:30:00Z",
+          "status": "a_caminho",
+          "local": "Em trânsito para Caruaru"
+        }
+      ]
     }
   ]
 }
