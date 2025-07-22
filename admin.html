@@ -251,7 +251,7 @@
               <select v-model="novaEntrega.clienteId" required>
                 <option disabled value="">Selecione um cliente</option>
                 <option v-for="cliente in clientes" :key="cliente.id" :value="cliente.id">
-                  {{ cliente.nomeCompleto }}
+                  {{ cliente.nome }}
                 </option>
               </select>
 
@@ -267,7 +267,7 @@
               <select v-model="novaEntrega.rotaId" required>
                 <option disabled value="">Selecione uma rota</option>
                 <option v-for="rota in rotas" :key="rota.id" :value="rota.id">
-                  {{ rota.origem }} → {{ rota.destino }} ({{ rota.distanciaKm
+                  {{ rota.origem }} → {{ rota.destino }} ({{ rota.distancia_km
                   }} km)
                 </option>
               </select>
@@ -311,7 +311,7 @@
             <td>{{ entrega.codigo_rastreamento }}</td>
             <td>{{ formatarCpfCnpj(getCliente(entrega.clienteId).cpfCnpj) }}</td>
             <td>{{ getEncomenda(entrega.encomendaId).descricao }}</td>
-            <td>{{ getRota(entrega.rotaId).origem }} >>> {{ getRota(entrega.rotaId).destino }}</td>
+            <td>{{ getRota(entrega.rotaId).origem }} → {{ getRota(entrega.rotaId).destino }}</td>
             <td>{{ formatarData(entrega.data_estimada) }}</td>
             <td>{{ entrega.status.replace('_', ' ') }}</td>
             <td><button class="botao-detalhar" @click="abrirModalInfo('entrega', entrega)" alt="Detalhes">🔍 Detalhes</button>
@@ -333,7 +333,7 @@
           <p><strong>Cliente:</strong> {{ getCliente(entregaSelecionada.clienteId).nome }}</p>
           <p><strong>CPF/CNPJ:</strong> {{ formatarCpfCnpj(getCliente(entregaSelecionada.clienteId).cpfCnpj) }}</p>
           <p><strong>Encomenda:</strong> {{ getEncomenda(entregaSelecionada.encomendaId).tipo }} | {{getEncomenda(entregaSelecionada.encomendaId).descricao}}</p>
-          <p><strong>Rota:</strong> {{ getRota(entregaSelecionada.rotaId).origem }} >>> {{ getRota(entregaSelecionada.rotaId).destino }}</p>
+          <p><strong>Rota:</strong> {{ getRota(entregaSelecionada.rotaId).origem }} → {{ getRota(entregaSelecionada.rotaId).destino }}</p>
           <p><strong>Data Estimada:</strong> {{ formatarData(entregaSelecionada.data_estimada) }}</p>
           <p><strong>Status Atual:</strong> {{ getEmojiStatus(entregaSelecionada.status) }} {{
             getStatusText(entregaSelecionada.status) }}</p>
