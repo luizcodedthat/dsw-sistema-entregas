@@ -5,6 +5,8 @@ export default {
     const cliente = this.clientes.find(cliente => cliente.id === id)
     if (cliente) {
       return cliente;
+    } else {
+      return null;
     }
   },
 
