@@ -138,12 +138,64 @@
         <label for="filtro-peso-min">Filtrar pelo peso (kg):</label>
         <div style="display: flex; gap: 8px; align-items: center;">
           <label for="filtro-peso-min">De</label>
-          <input type="number" id="filtro-peso-min" v-model.number="pesoMin" placeholder="mín." min="0" step="0.01" />
+          <input
+            type="number"
+            id="filtro-peso-min"
+            v-model.number="pesoMin"
+            placeholder="mín."
+            min="0"
+            step="0.01"
+          />
           <label for="filtro-peso-max">Até</label>
-          <input type="number" id="filtro-peso-max" v-model.number="pesoMax" placeholder="máx." min="0" step="0.01" />
+          <input
+            type="number"
+            id="filtro-peso-max"
+            v-model.number="pesoMax"
+            placeholder="máx."
+            min="0"
+            step="0.01"
+          />
         </div>
 
-        <button class="novo-cadastro">+ Nova encomenda</button>
+        <button class="novo-cadastro" @click="abrirModal('encomenda')">+ Nova encomenda</button>
+
+        <!-- Modal para nova encomenda -->
+        <div v-if="modais.encomenda" class="modal">
+          <div class="modal-content">
+            <h2>Nova Encomenda</h2>
+
+            <form @submit.prevent="cadastrarEncomenda">
+              <label for="novo-tipo">Tipo:</label>
+              <select id="novo-tipo" v-model="novaEncomenda.tipo" required>
+                <option disabled value="">Selecione...</option>
+                <option value="caixa">Caixa</option>
+                <option value="documento">Documento</option>
+                <option value="palete">Palete</option>
+              </select>
+
+              <label for="nova-descricao">Descrição:</label>
+              <input id="nova-descricao" v-model="novaEncomenda.descricao" required />
+
+              <label for="novo-endereco">Endereço de Entrega:</label>
+              <input id="novo-endereco" v-model="novaEncomenda.endereco_entrega" required />
+
+              <label for="novo-peso">Peso (kg):</label>
+              <input
+                id="novo-peso"
+                type="number"
+                step="0.01"
+                min="0"
+                v-model.number="novaEncomenda.peso"
+                required
+              />
+
+              <div class="botoes">
+                <button class="button" type="submit">Salvar</button>
+                <button class="remover-btn" type="button" @click="fecharModal('encomenda')">Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
 
       <table id="tabela-encomendas" class="tabela-listagem">

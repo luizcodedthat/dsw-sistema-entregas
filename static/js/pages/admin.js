@@ -4,6 +4,7 @@ import { getTodosCentros } from "../services/centro.js";
 import { getTodasEncomendas } from "../services/encomenda.js";
 import { getTodasRotas, postNovaRota } from "../services/rota.js";
 import { postNovaEntrega } from "../services/entrega.js";
+import { postNovaEncomenda } from "../services/encomenda.js";
 
 const { createApp } = Vue;
 
@@ -35,6 +36,13 @@ createApp({
         rotaId: "",
         status: "",
       },
+
+      novaEncomenda: {
+      tipo: "",
+      descricao: "",
+      endereco_entrega: "",
+      peso: null,
+    },
 
       novaRota: {
         origem: "",
@@ -103,6 +111,16 @@ createApp({
         tempoEstimadoH: "",
       };
     }
+
+    if (tipo === "encomenda") {
+      this.novaEncomenda = {
+        tipo: "",
+        descricao: "",
+        endereco_entrega: "",
+        peso: "",
+      };
+    }
+    
     },
     async cadastrarEntrega() {
       try {
@@ -122,7 +140,7 @@ createApp({
 
         await postNovaEntrega(nova);
         alert("Entrega cadastrada com sucesso!");
-        this.fecharModalEntrega();
+        this.fecharModal("entrega");
       } catch (e) {
         console.error("Erro ao cadastrar entrega:", e);
         alert("Erro ao cadastrar entrega.");
@@ -141,10 +159,28 @@ createApp({
 
         await postNovaRota(novaRota);
         alert("Rota cadastrada com sucesso!");
-        this.fecharModalRota(); // ainda vou implementar
+        this.fecharModal("rota");
       } catch (error) {
         console.error("Erro ao cadastrar rota:", error);
         alert("Erro ao cadastrar rota.");
+      }
+    },
+
+    async cadastrarEncomenda() {
+      try {
+        const novaEncomenda = {
+          tipo: this.novaEncomenda.tipo,
+          descricao: this.novaEncomenda.descricao,
+          endereco_entrega: this.novaEncomenda.endereco_entrega,
+          peso: parseFloat(this.novaEncomenda.peso),
+        };
+
+        await postNovaEncomenda(novaEncomenda);
+        alert("Encomenda cadastrado com sucesso!");
+        this.fecharModal("encomenda");
+      } catch (error) {
+        console.error("Erro ao cadastrar encomenda:", error);
+        alert("Erro ao cadastrar encomenda.");
       }
     },
 
@@ -160,7 +196,7 @@ createApp({
 
         await postNovoCliente(novoCliente);
         alert("Cliente cadastrado com sucesso!");
-        this.fecharModalCliente();
+        this.fecharModal("cliente");
       } catch (error) {
         console.error("Erro ao cadastrar cliente:", error);
         alert("Erro ao cadastrar cliente.");
