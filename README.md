@@ -2,7 +2,7 @@
 # Frontend de um Sistema de Logística de Entregas
 
 ## 📁 Estrutura de Pastas
-
+```
 assets/
 └── data/
     └── fake-api.json         # Arquivo JSON simulado para a API
@@ -55,7 +55,7 @@ static/
 ├── index.html                # Página inicial (menu principal)
 ├── rastreamento.html         # Página de Rastreamento de Entregas
 └── paleta.md                 # Documento com a paleta de cores do projeto
-
+```
 
 ## ⚙️ Funcionalidades
 
