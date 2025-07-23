@@ -344,7 +344,7 @@
               </select>
 
               <label>Data Estimada:</label>
-              <input type="datetime-local" v-model="novaEntrega.dataEstimada" required />
+              <input type="date" max="9999-12-31" v-model="novaEntrega.dataEstimada" required />
 
               <label>Status:</label>
               <select v-model="novaEntrega.status" required>
@@ -396,7 +396,7 @@
         <div class="modal-info-content">
 
           <!-- Botão fechar -->
-          <button class="fechar-modal" @click="fecharModalInfo('entrega')"></button>
+          <button class="fechar-modal" @click="fecharModalInfo('entrega')">𐌢</button>
 
           <h2>📦 Detalhes da Entrega</h2>
 
