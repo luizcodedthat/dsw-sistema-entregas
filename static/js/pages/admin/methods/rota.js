@@ -1,3 +1,5 @@
+import { postNovaRota } from "../../../services/rota.js";
+
 export default {
 
   getRota(id) {

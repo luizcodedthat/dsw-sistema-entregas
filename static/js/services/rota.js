@@ -16,19 +16,19 @@ export async function getTodasRotas() {
 
 export async function postNovaRota(rota) {
   try {
-    const resposta = await fetch(`${API_BASE_URL}entregas`, {
+    const resposta = await fetch(`${API_BASE_URL}rotas`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(entrega)
+      body: JSON.stringify(rota)
     });
 
     if (!resposta.ok) {
-      throw new Error('Erro ao salvar entrega');
+      throw new Error('Erro ao salvar rota');
     }
 
     return await resposta.json();
   } catch (erro) {
-    console.error('Erro ao enviar entrega:', erro.message);
+    console.error('Erro ao enviar rota:', erro.message);
     throw erro;
   }
 }
