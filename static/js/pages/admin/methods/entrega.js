@@ -4,10 +4,11 @@ export default {
   async cadastrarEntrega() {
     try {
       const nova = {
+        id: this.gerarId("entregas"),
         clienteId: parseInt(this.novaEntrega.clienteId),
         encomendaId: parseInt(this.novaEntrega.encomendaId),
         rotaId: parseInt(this.novaEntrega.rotaId),
-        dataEstimada: this.novaEntrega.dataEstimada,
+        data_estimada: this.novaEntrega.dataEstimada,
         status: this.novaEntrega.status,
         historico: [
           {

@@ -22,17 +22,19 @@ export default {
 
   abrirModalInfo(tipo, entidade) {
     this.infomodais[tipo] = true;
-
+    
     this.entregaSelecionada = entidade;
   },
 
   fecharModal(tipo) {
     this.modais[tipo] = false;
+
     if (tipo === "entrega") {
       this.novaEntrega = {
         clienteId: "",
         encomendaId: "",
         rotaId: "",
+        dataEstimada: "",
         status: "",
       };
     }
@@ -51,9 +53,10 @@ export default {
       this.novaRota = {
         origem: "",
         destino: "",
-        centrosIntermediarios: [],
-        distanciaKm: "",
-        tempoEstimadoH: "",
+        centros_intermediarios: [],
+        distancia_km: 0,
+        tempo_estimado_h: 0,
+        id: ""
       };
     }
 
@@ -69,6 +72,5 @@ export default {
 
   fecharModalInfo(tipo) {
     this.infomodais[tipo] = false;
-
   },
-}
+};

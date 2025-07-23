@@ -223,14 +223,12 @@
         <label for="filtro-origem">Filtrar por Origem:</label>
         <input type="text" v-model="filtroOrigem" id="filtro-origem" name="filtro-origem"
           placeholder="Digite uma origem" />
-        
 
         <label for="filtro-destino">Filtrar por Destino:</label>
         <input type="text" v-model="filtroDestino" id="filtro-destino" name="filtro-destino"
           placeholder="Digite um destino" />
-        
 
-        <button class="novo-cadastro">+ Nova rota</button>
+        <button class="novo-cadastro" @click="abrirModal('rota')">+ Nova rota</button>
       </div>
 
       <table id="tabela-rotas" class="tabela-listagem">
@@ -256,6 +254,38 @@
           </tr>
         </tbody>
       </table>
+
+      <div v-if="modais.rota" class="modal">
+        <div class="modal-content">
+          <h2>Nova Rota</h2>
+
+          <form @submit.prevent="cadastrarRota">
+            <label for="origem"><strong>Origem:</strong></label>
+            <input id="origem" type="text" v-model="novaRota.origem" placeholder="Digite a origem" />
+
+            <label for="destino"><strong>Destino:</strong></label>
+            <input id="destino" type="text" v-model="novaRota.destino" placeholder="Digite o destino" />
+
+            <label for="centros"><strong>Centros Intermediários:</strong></label>
+            <select id="centros" multiple v-model="novaRota.centrosIntermediarios">
+              <option v-for="centro in centros" :key="centro.id" :value="centro.nome">
+                {{ centro.nome }}
+              </option>
+            </select>
+
+            <label for="distancia"><strong>Distância (km):</strong></label>
+            <input id="distancia" type="number" v-model="novaRota.distanciaKm" placeholder="Digite a distância" />
+
+            <label for="tempo"><strong>Tempo Estimado (h):</strong></label>
+            <input id="tempo" type="number" v-model="novaRota.tempoEstimadoH" placeholder="Digite o tempo" />
+
+            <div class="botoes">
+              <button class="btn-salvar" type="submit">Salvar</button>
+              <button class="btn-cancelar" @click="fecharModal('rota')" type="button">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>
 
     <section id="secao-entregas" class="secao">
