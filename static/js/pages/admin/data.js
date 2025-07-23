@@ -22,12 +22,14 @@ export default function () {
             entrega: false,
             cliente: false,
             rota: false,
+            encomenda: false,
         },
 
         infomodais: {
             entrega: false,
             cliente: false,
             rota: false,
+            encomenda: false,
         },
 
         novaEntrega: {
@@ -35,6 +37,13 @@ export default function () {
             encomendaId: "",
             rotaId: "",
             status: "",
+        },
+
+        novaEncomenda : {
+            tipo : "" ,
+            descrição : "" ,
+            endereco_entrega : "" ,
+            peso : "" ,
         },
 
         novaRota: {

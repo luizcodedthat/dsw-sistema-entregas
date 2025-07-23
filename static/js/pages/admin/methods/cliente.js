@@ -22,7 +22,7 @@ export default {
 
       await postNovoCliente(novoCliente);
       alert("Cliente cadastrado com sucesso!");
-      this.fecharModalCliente();
+      this.fecharModal("cliente");
     } catch (error) {
       console.error("Erro ao cadastrar cliente:", error);
       alert("Erro ao cadastrar cliente.");

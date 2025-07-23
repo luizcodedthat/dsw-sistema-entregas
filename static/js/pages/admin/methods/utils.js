@@ -56,6 +56,15 @@ export default {
         tempoEstimadoH: "",
       };
     }
+
+    if (tipo === "encomenda") {
+      this.novaEncomenda = {
+        tipo: "",
+        descricao: "",
+        endereco_entrega: "",
+        peso: "",
+      };
+    }
   },
 
   fecharModalInfo(tipo) {

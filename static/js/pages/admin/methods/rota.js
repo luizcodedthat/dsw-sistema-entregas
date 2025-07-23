@@ -19,7 +19,7 @@ export default {
 
       await postNovaRota(novaRota);
       alert("Rota cadastrada com sucesso!");
-      this.fecharModalRota(); // ainda vou implementar
+      this.fecharModal("rota");
     } catch (error) {
       console.error("Erro ao cadastrar rota:", error);
       alert("Erro ao cadastrar rota.");

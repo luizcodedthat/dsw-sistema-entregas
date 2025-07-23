@@ -311,8 +311,7 @@
               <select v-model="novaEntrega.rotaId" required>
                 <option disabled value="">Selecione uma rota</option>
                 <option v-for="rota in rotas" :key="rota.id" :value="rota.id">
-                  {{ rota.origem }} → {{ rota.destino }} ({{ rota.distancia_km
-                  }} km)
+                  {{ rota.origem }} → {{ rota.destino }} ({{ rota.distancia_km }} km)
                 </option>
               </select>
 
@@ -336,7 +335,7 @@
             </form>
           </div>
         </div>
-      </div>
+
 
       <table>
         <thead>
@@ -369,7 +368,7 @@
         <div class="modal-info-content">
 
           <!-- Botão fechar -->
-          <button class="fechar-modal" @click="fecharModalInfo('entrega')">𐌢</button>
+          <button class="fechar-modal" @click="fecharModalInfo('entrega')"></button>
 
           <h2>📦 Detalhes da Entrega</h2>
 
