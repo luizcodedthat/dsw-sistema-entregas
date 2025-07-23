@@ -11,13 +11,17 @@ export default {
   },
 
   async cadastrarCliente() {
+
+    const maiorId = this.clientes.length
+      ? Math.max(...this.clientes.map(e => e.id)) : 0;
+
     try {
       const novoCliente = {
+        id: maiorId + 1,
         nome: this.novoCliente.nome,
         cpfCnpj: this.novoCliente.cpfCnpj,
         email: this.novoCliente.email,
         endereco: this.novoCliente.endereco,
-        telefone: this.novoCliente.telefone,
       };
 
       await postNovoCliente(novoCliente);
