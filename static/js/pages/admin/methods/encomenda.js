@@ -8,21 +8,25 @@ export default {
     }
   },
   async cadastrarEncomenda() {
-      try {
-        const novaEncomenda = {
-          tipo: this.novaEncomenda.tipo,
-          descricao: this.novaEncomenda.descricao,
-          endereco_entrega: this.novaEncomenda.endereco_entrega,
-          peso: parseFloat(this.novaEncomenda.peso),
-        };
+    const maiorId = this.encomendas.length
+      ? Math.max(...this.encomendas.map(e => e.id)) : 0;
+    
+    try {
+      const novaEncomenda = {
+        id: maiorId + 1,
+        tipo: this.novaEncomenda.tipo,
+        descricao: this.novaEncomenda.descricao,
+        endereco_entrega: this.novaEncomenda.endereco_entrega,
+        peso: parseFloat(this.novaEncomenda.peso),
+      };
 
-        await postNovaEncomenda(novaEncomenda);
-        alert("Encomenda cadastrado com sucesso!");
-        this.fecharModal("encomenda");
-      } catch (error) {
-        console.error("Erro ao cadastrar encomenda:", error);
-        alert("Erro ao cadastrar encomenda.");
-      }
-    },
+      await postNovaEncomenda(novaEncomenda);
+      alert("Encomenda cadastrado com sucesso!");
+      this.fecharModal("encomenda");
+    } catch (error) {
+      console.error("Erro ao cadastrar encomenda:", error);
+      alert("Erro ao cadastrar encomenda.");
+    }
+  },
 
 }

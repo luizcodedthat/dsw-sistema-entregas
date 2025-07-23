@@ -59,7 +59,6 @@ export default function () {
             cpfCnpj: "",
             email: "",
             endereco: "",
-            telefone: "",
         },
     };
 }
