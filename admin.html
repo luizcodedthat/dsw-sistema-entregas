@@ -82,7 +82,7 @@
 
               <label>CPF/CNPJ:</label>
               <input type="text" v-model="novoCliente.cpfCnpj" required placeholder="Digite o CPF ou CNPJ"
-                @input="formatarCpfCnpj(novoCliente.cpfCnpj)" />
+                @input="novoCliente.cpfCnpj = formatarCpfCnpj(novoCliente.cpfCnpj)" />
 
               <label>E-mail:</label>
               <input type="email" v-model="novoCliente.email" required placeholder="Digite o e-mail" />
@@ -90,8 +90,6 @@
               <label>Endereço:</label>
               <input type="text" v-model="novoCliente.endereco" required placeholder="Digite o endereço completo" />
 
-              <label>Telefone:</label>
-              <input type="text" v-model="novoCliente.telefone" required placeholder="Digite o telefone" />
               <div class="botoes">
                 <button class="button" type="submit">Salvar</button>
                 <button class="remover-btn" type="button" @click="fecharModal('cliente')">
