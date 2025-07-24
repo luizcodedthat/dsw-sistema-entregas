@@ -82,7 +82,7 @@
 
               <label>CPF/CNPJ:</label>
               <input type="text" v-model="novoCliente.cpfCnpj" required placeholder="Digite o CPF ou CNPJ"
-                @input="novoCliente.cpfCnpj = formatarCpfCnpj(novoCliente.cpfCnpj)" />
+                @input="novoCliente.cpfCnpj = formatarCpfCnpj(novoCliente.cpfCnpj, 0)" />
 
               <label>E-mail:</label>
               <input type="email" v-model="novoCliente.email" required placeholder="Digite o e-mail" />
@@ -233,7 +233,7 @@
         <thead>
           <tr>
             <th>Ponto de Origem</th>
-            <th>Pontos Intermediários</th>
+            <th>P. Intermediários</th>
             <th>Ponto de Destino</th>
             <th>Distância (km)</th>
             <th>Tempo estimado (h)</th>
@@ -243,8 +243,7 @@
           <tr v-for="rota in rotasFiltradas" :key="rota.id">
             <td>{{ rota.origem }}</td>
             <td>
-              <span>{{ (rota.centros_intermediarios || []).map(centro => centro.nome).join(", ") }}</span>
-              <span v-if="(rota.centros_intermediarios || []).length === 0">-</span>
+              <span>{{ rota.centros_intermediarios.map(centro => centro.nome).join(", ") }}</span>
             </td>
             <td>{{ rota.destino }}</td>
             <td>{{ rota.distancia_km }} km</td>
@@ -266,7 +265,7 @@
 
             <label for="centros"><strong>Centros Intermediários:</strong></label>
             <select id="centros" multiple v-model="novaRota.centrosIntermediarios">
-              <option v-for="centro in centros" :key="centro.id" :value="centro.nome">
+              <option v-for="centro in centros" :key="centro.id" :value="{id: centro.id, nome: centro.nome}">
                 {{ centro.nome }}
               </option>
             </select>
@@ -403,7 +402,7 @@
           <p><strong>Código de Rastreamento:</strong> {{ entregaSelecionada.codigo_rastreamento }}</p>
           <p><strong>Cliente:</strong> {{ getCliente(entregaSelecionada.clienteId).nome }}</p>
           <p><strong>CPF/CNPJ:</strong> {{ formatarCpfCnpj(getCliente(entregaSelecionada.clienteId).cpfCnpj) }}</p>
-          <p><strong>Encomenda:</strong> {{ getEncomenda(entregaSelecionada.encomendaId).tipo }} | {{getEncomenda(entregaSelecionada.encomendaId).descricao}}</p>
+          <p><strong>Encomenda:</strong> {{ getEncomenda(entregaSelecionada.encomendaId).tipo }}: {{getEncomenda(entregaSelecionada.encomendaId).descricao}}</p>
           <p><strong>Rota:</strong> {{ getRota(entregaSelecionada.rotaId).origem }} → {{ getRota(entregaSelecionada.rotaId).destino }}</p>
           <p><strong>Data Estimada:</strong> {{ formatarData(entregaSelecionada.data_estimada) }}</p>
           <p><strong>Status Atual:</strong> {{ getEmojiStatus(entregaSelecionada.status) }} {{
@@ -415,6 +414,7 @@
                 <p class="historico-status">
                   {{ getStatusText(historico.status) }}
                 </p>
+                <p class="historico-local"> {{ historico.local }} </p>
                 <p class="historico-data">
                   {{ getDataFormatada(historico.data) }}
                 </p>

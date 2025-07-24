@@ -1,16 +1,14 @@
-import { postNovaEntrega } from "../../../services/index.js";
+import { getTodasEntregas, postNovaEntrega } from "../../../services/index.js";
 
-function gerarNovoIdEntregas(entregas) {
+function gerarNovoIdEntrega(entregas) {
   const numeros = entregas
     .map(e => {
       const match = String(e.id).match(/^ent-(\d+)$/);
-      return match ? parseInt(match[1], 10) : 0;
-    });
-
+      return match ? parseInt(match[1], 10) : null;
+    })
+    .filter(n => n !== null);
   const maior = numeros.length ? Math.max(...numeros) : 0;
-
   const novoNumero = String(maior + 1).padStart(3, '0');
-
   return `ent-${novoNumero}`;
 }
 
@@ -33,25 +31,28 @@ function gerarCodigoRastreamentoUnico(entregas, estado = "PE") {
 export default {
   async cadastrarEntrega() {
     try {
+      const origem = this.rotas.find(r => r.id === this.novaEntrega.rotaId)?.origem;
       const nova = {
-        id: gerarNovoIdEntregas(this.entregas),
+        id: gerarNovoIdEntrega(this.entregas),
         codigo_rastreamento: gerarCodigoRastreamentoUnico(this.entregas),
-        clienteId: parseInt(this.novaEntrega.clienteId),
-        encomendaId: parseInt(this.novaEntrega.encomendaId),
+        clienteId: this.novaEntrega.clienteId,
+        encomendaId: this.novaEntrega.encomendaId,
         rotaId: this.novaEntrega.rotaId,
         data_estimada: this.novaEntrega.dataEstimada,
         status: this.novaEntrega.status,
         historico: [
           {
-            dataHora: new Date().toISOString(),
+            data: new Date().toISOString(),
+            local: "CD " + origem,
             status: this.novaEntrega.status,
           },
         ],
       };
-
+      
       await postNovaEntrega(nova);
       alert("Entrega cadastrada com sucesso!");
       this.fecharModal("entrega");
+      this.entregas = await getTodasEntregas();
     } catch (e) {
       console.error("Erro ao cadastrar entrega:", e);
       alert("Erro ao cadastrar entrega.");

@@ -25,7 +25,7 @@ export default {
     async carregarEntregas() {
         const entregas = await getTodasEntregas()
         this.entregas = entregas;
-        // Ordena os historicos de entrega por data, do mais recente para o mais antigo
+        
         this.entregas.forEach(entrega => entrega.historico.sort((ent1, ent2) => new Date(ent2.data) - new Date(ent1.data)));
     },
 }

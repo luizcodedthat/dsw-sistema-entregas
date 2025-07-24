@@ -39,11 +39,4 @@ export default {
         });
     },
     
-    rotasFiltradas() {
-    return this.rotas.filter((rota) => {
-      const origemOk = this.filtroOrigem.trim() === "" || rota.origem.toLowerCase().includes(this.filtroOrigem.toLowerCase());
-      const destinoOk = this.filtroDestino.trim() === "" || rota.destino.toLowerCase().includes(this.filtroDestino.toLowerCase());
-      return origemOk && destinoOk;
-    });
-  }
 }
