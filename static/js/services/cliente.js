@@ -1,10 +1,24 @@
 import { API_BASE_URL } from "./config.js";
 
+function sanitizarClientes(clientes) {
+  return Array.isArray(clientes)
+    ? clientes.filter(c =>
+        ["number", "string"].includes(typeof c.id) &&
+        typeof c.nome === "string" &&
+        typeof c.cpfCnpj === "string" &&
+        typeof c.email === "string" &&
+        typeof c.endereco === "string"
+      )
+    : [];
+}
+
 export async function getTodosClientes() {
   try {
     const response = await fetch(`${API_BASE_URL}clientes`);
     if (!response.ok) throw new Error("Erro ao buscar clientes");
-    return await response.json();
+    const clientes = await response.json();
+    console.log(clientes)
+    return sanitizarClientes(clientes);
   } catch (error) {
     console.error("Erro ao buscar clientes:", error);
     return [];

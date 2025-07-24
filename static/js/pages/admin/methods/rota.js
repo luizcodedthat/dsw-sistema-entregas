@@ -1,4 +1,16 @@
-import { postNovaRota } from "../../../services/rota.js";
+import { getTodasRotas, postNovaRota } from "../../../services/rota.js";
+
+function gerarNovoIdRota(rotas) {
+  const numeros = rotas
+    .map(r => {
+      const match = String(r.id).match(/^rota-(\d+)$/);
+      return match ? parseInt(match[1], 10) : null;
+    })
+    .filter(n => n !== null);
+  const maior = numeros.length ? Math.max(...numeros) : 0;
+  const novoNumero = String(maior + 1).padStart(2, '0');
+  return `rota-${novoNumero}`;
+}
 
 export default {
 
@@ -9,23 +21,10 @@ export default {
     }
   },
 
-  gerarNovoIdRota(rotas) {
-    const numeros = rotas
-      .map(r => {
-        const match = String(r.id).match(/^rota-(\d+)$/);
-        return match ? parseInt(match[1], 10) : 0;
-      });
-
-    const maior = numeros.length ? Math.max(...numeros) : 0;
-    const novoNumero = String(maior + 1).padStart(2, '0');
-
-    return `rota-${novoNumero}`;
-  },
-
   async cadastrarRota() {
     try {
       const novaRota = {
-        id: this.gerarNovoIdRota(this.rotas),
+        id: gerarNovoIdRota(this.rotas),
         origem: this.novaRota.origem,
         destino: this.novaRota.destino,
         distancia_km: parseFloat(this.novaRota.distanciaKm),
@@ -36,6 +35,7 @@ export default {
       await postNovaRota(novaRota);
       alert("Rota cadastrada com sucesso!");
       this.fecharModal("rota");
+      this.rotas = await getTodasRotas();
     } catch (error) {
       console.error("Erro ao cadastrar rota:", error);
       alert("Erro ao cadastrar rota.");

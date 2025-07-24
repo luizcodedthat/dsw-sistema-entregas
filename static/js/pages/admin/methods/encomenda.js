@@ -1,19 +1,28 @@
-import { postNovaEncomenda } from "../../../services/index.js";
+import { getTodasEncomendas, postNovaEncomenda } from "../../../services/index.js";
+
+function gerarNovoIdEncomenda(encomendas) {
+  const numeros = encomendas
+    .map(e => {
+      const n = parseInt(e.id, 10);
+      return Number.isFinite(n) ? n : null;
+    })
+    .filter(n => n !== null);
+  const maior = numeros.length ? Math.max(...numeros) : 100; // começa em 101
+  return String(maior + 1);
+}
 
 export default {
   getEncomenda(id) {
-    const encomenda = this.encomendas.find(encomenda => encomenda.id === id);
+    const encomenda = this.encomendas.find(encomenda => encomenda.id == id);
     if (encomenda) {
       return encomenda;
     }
   },
   async cadastrarEncomenda() {
-    const maiorId = this.encomendas.length
-      ? Math.max(...this.encomendas.map(e => e.id)) : 0;
     
     try {
       const novaEncomenda = {
-        id: maiorId + 1,
+        id: gerarNovoIdEncomenda(this.encomendas),
         tipo: this.novaEncomenda.tipo,
         descricao: this.novaEncomenda.descricao,
         endereco_entrega: this.novaEncomenda.endereco_entrega,
@@ -23,6 +32,7 @@ export default {
       await postNovaEncomenda(novaEncomenda);
       alert("Encomenda cadastrado com sucesso!");
       this.fecharModal("encomenda");
+      this.encomendas = await getTodasEncomendas();
     } catch (error) {
       console.error("Erro ao cadastrar encomenda:", error);
       alert("Erro ao cadastrar encomenda.");
