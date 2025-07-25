@@ -288,26 +288,29 @@
     <section id="secao-entregas" class="secao">
       <h1>Gerencie as entregas cadastradas</h1>
       <div id="filtros">
-        <label for="filtro-cliente">Filtrar por Cliente:</label>
-        <select name="filtro-cliente" id="filtro-cliente">
-          <option value="centro">Cliente</option>
-        </select>
+        <select name="filtro-cliente" id="filtro-cliente" v-model="filtroCliente">
+        <option value="">Todos os clientes</option>
+        <option v-for="cliente in clientes" :value="cliente.id" :key="cliente.id">
+          {{ cliente.nome }}
+        </option>
+      </select>
 
-        <label for="filtro-rota">Filtrar por Rota:</label>
-        <select name="filtro-rota" id="filtro-rota">
-          <option value="rota">Rota</option>
-        </select>
+      <select name="filtro-rota" id="filtro-rota" v-model="filtroRota">
+        <option value="">Todas as rotas</option>
+        <option v-for="rota in rotas" :value="rota.id" :key="rota.id">
+          {{ rota.origem }} → {{ rota.destino }}
+        </option>
+      </select>
 
-        <label for="filtro-status">Filtrar por Status:</label>
-        <select name="filtro-status" id="filtro-status">
-          <option value="nenhum">Selecione...</option>
-          <option value="em_preparo">Em preparo</option>
-          <option value="a_caminho">À caminho</option>
-          <option value="entregue">Entregue</option>
-        </select>
+      <select name="filtro-status" id="filtro-status" v-model="filtroStatus">
+        <option value="">Todos os status</option>
+        <option value="em_preparo">Em preparo</option>
+        <option value="a_caminho">À caminho</option>
+        <option value="entregue">Entregue</option>
+      </select>
 
         <label for="filtro-data">Filtrar por Data:</label>
-        <input type="date" id="filtro-data" name="filtro-data" />
+        <input type="date" id="filtro-data" name="filtro-data" v-model="filtroData" />
 
         <button class="novo-cadastro" @click="abrirModal('entrega')">
           + Nova entrega
@@ -377,7 +380,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="entrega in entregas" :key="entrega.id">
+          <tr v-for="entrega in entregasFiltradas" :key="entrega.id">
             <td>{{ entrega.codigo_rastreamento }}</td>
             <td>{{ formatarCpfCnpj(getCliente(entrega.clienteId)?.cpfCnpj) }}</td>
             <td>{{ getEncomenda(entrega.encomendaId).descricao }}</td>

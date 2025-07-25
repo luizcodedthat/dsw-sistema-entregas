@@ -24,3 +24,9 @@ export function formatarCpfCnpj (valor, tolerancia = 5) {
   return valor;
 }
 
+
+export function normalizarData(data) {
+  if (!data) return '';
+  const partes = data.split('/');
+  return partes.length === 3 ? `${partes[2]}-${partes[1]}-${partes[0]}` : data;
+}

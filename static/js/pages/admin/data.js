@@ -1,5 +1,12 @@
 export default function () {
     return {
+        
+        filtroCliente: '',
+        filtroRota: '',
+        filtroStatus: '',
+        filtroData: '',
+        
+        
         filtroNome: '',
         filtroCPFCNPJ: '',
 

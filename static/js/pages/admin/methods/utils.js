@@ -1,4 +1,4 @@
-import { formatarCpfCnpj } from "../../../utils/formatter.js";
+import { formatarCpfCnpj,normalizarData  } from "../../../utils/formatter.js";
 
 export default {
   formatarCpfCnpj,
@@ -64,4 +64,6 @@ export default {
   fecharModalInfo(tipo) {
     this.infomodais[tipo] = false;
   },
+
+
 };
