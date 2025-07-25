@@ -4,6 +4,7 @@ function sanitizarClientes(clientes) {
   return Array.isArray(clientes)
     ? clientes.filter(c =>
         ["number", "string"].includes(typeof c.id) &&
+        String(c.id).trim().length > 0 &&
         typeof c.nome === "string" &&
         typeof c.cpfCnpj === "string" &&
         typeof c.email === "string" &&

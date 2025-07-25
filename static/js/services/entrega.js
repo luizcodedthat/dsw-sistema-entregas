@@ -4,10 +4,15 @@ function sanitizarEntregas(entregas) {
   return Array.isArray(entregas)
     ? entregas.filter(e =>
       typeof e.id === "string" &&
+      e.id.trim().length > 0 &&
       typeof e.codigo_rastreamento === "string" &&
+      e.codigo_rastreamento.length > 0 &&
       ["number", "string"].includes(typeof e.clienteId) &&
+      String(e.clienteId).trim().length > 0 &&
       ["number", "string"].includes(typeof e.encomendaId) &&
+      String(e.encomendaId).trim().length > 0 &&
       ["string", "number"].includes(typeof e.rotaId) &&
+      String(e.rotaId).trim().length > 0 &&
       typeof e.data_estimada === "string" &&
       typeof e.status === "string" &&
       Array.isArray(e.historico) &&
