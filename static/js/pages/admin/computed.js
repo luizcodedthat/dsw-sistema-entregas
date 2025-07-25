@@ -1,3 +1,6 @@
+import { normalizarData } from '../../utils/formatter.js';
+
+
 export default {
     encomendasFiltradas() {
         const tipoFiltro = this.filtroTipo?.trim().toLowerCase();
@@ -39,4 +42,22 @@ export default {
         });
     },
     
+    entregasFiltradas() {
+    return this.entregas.filter((entrega) => {
+      const clienteOk = !this.filtroCliente || entrega.clienteId == this.filtroCliente;
+      const rotaOk = !this.filtroRota || entrega.rotaId == this.filtroRota;
+      const statusOk = !this.filtroStatus || entrega.status === this.filtroStatus;
+
+      
+      const dataEntrega = normalizarData(entrega.data_estimada);
+      const dataOk = !this.filtroData || dataEntrega === this.filtroData;
+
+      return clienteOk && rotaOk && statusOk && dataOk;
+    });
+  },
+
+
+
+
+
 }
