@@ -4,6 +4,7 @@ function sanitizarRotas(rotas) {
   return Array.isArray(rotas)
     ? rotas.filter(r =>
         ["string", "number"].includes(typeof r.id) &&
+        String(r.id).trim().length > 0 &&
         typeof r.origem === "string" &&
         typeof r.destino === "string" &&
         typeof r.distancia_km === "number" &&

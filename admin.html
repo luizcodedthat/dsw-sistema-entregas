@@ -383,8 +383,8 @@
           <tr v-for="entrega in entregasFiltradas" :key="entrega.id">
             <td>{{ entrega.codigo_rastreamento }}</td>
             <td>{{ formatarCpfCnpj(getCliente(entrega.clienteId)?.cpfCnpj) }}</td>
-            <td>{{ getEncomenda(entrega.encomendaId).descricao }}</td>
-            <td>{{ getRota(entrega.rotaId).origem }} → {{ getRota(entrega.rotaId).destino }}</td>
+            <td>{{ getEncomenda(entrega.encomendaId)?.descricao }}</td>
+            <td>{{ getRota(entrega.rotaId)?.origem }} → {{ getRota(entrega.rotaId)?.destino }}</td>
             <td>{{ formatarData(entrega.data_estimada) }}</td>
             <td>{{ getStatusText(entrega.status) }}</td>
             <td><button class="botao-detalhar" @click="abrirModalInfo('entrega', entrega)" alt="Detalhes">🔍 Detalhes</button>
@@ -403,10 +403,10 @@
           <h2>📦 Detalhes da Entrega</h2>
 
           <p><strong>Código de Rastreamento:</strong> {{ entregaSelecionada.codigo_rastreamento }}</p>
-          <p><strong>Cliente:</strong> {{ getCliente(entregaSelecionada.clienteId).nome }}</p>
-          <p><strong>CPF/CNPJ:</strong> {{ formatarCpfCnpj(getCliente(entregaSelecionada.clienteId).cpfCnpj) }}</p>
-          <p><strong>Encomenda:</strong> {{ getEncomenda(entregaSelecionada.encomendaId).tipo }}: {{getEncomenda(entregaSelecionada.encomendaId).descricao}}</p>
-          <p><strong>Rota:</strong> {{ getRota(entregaSelecionada.rotaId).origem }} → {{ getRota(entregaSelecionada.rotaId).destino }}</p>
+          <p><strong>Cliente:</strong> {{ getCliente(entregaSelecionada.clienteId)?.nome }}</p>
+          <p><strong>CPF/CNPJ:</strong> {{ formatarCpfCnpj(getCliente(entregaSelecionada.clienteId)?.cpfCnpj) }}</p>
+          <p><strong>Encomenda:</strong> {{ getEncomenda(entregaSelecionada.encomendaId)?.tipo }}: {{getEncomenda(entregaSelecionada.encomendaId)?.descricao}}</p>
+          <p><strong>Rota:</strong> {{ getRota(entregaSelecionada.rotaId)?.origem }} → {{ getRota(entregaSelecionada.rotaId)?.destino }}</p>
           <p><strong>Data Estimada:</strong> {{ formatarData(entregaSelecionada.data_estimada) }}</p>
           <p><strong>Status Atual:</strong> {{ getEmojiStatus(entregaSelecionada.status) }} {{
             getStatusText(entregaSelecionada.status) }}</p>

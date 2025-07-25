@@ -4,6 +4,7 @@ function sanitizarEncomendas(encomendas) {
   return Array.isArray(encomendas)
     ? encomendas.filter(e =>
         ["number", "string"].includes(typeof e.id) &&
+        String(e.id).length > 0 &&
         typeof e.peso === "number" &&
         typeof e.tipo === "string" &&
         typeof e.descricao === "string" &&
